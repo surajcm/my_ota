@@ -26,8 +26,7 @@ public class HelloController {
     public String getAllFilms() {
         final String uri = "https://swapi.dev/api/films/";
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        return result;
+        return restTemplate.getForObject(uri, String.class);
     }
 
     /*
@@ -45,8 +44,7 @@ public class HelloController {
         } catch (Exception e) {
             e.printStackTrace();
             result = e.getLocalizedMessage();
-        } finally {
-            return result;
         }
+        return result;
     }
 }

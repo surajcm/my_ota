@@ -4,4 +4,6 @@
 *.ipr
 .mvn/
 target/
+src/main/java/com/online/travel/schema/*
+src/main/java/META-INF/*
 

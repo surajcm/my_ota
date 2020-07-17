@@ -1,12 +1,14 @@
 # my_ota
+This is a POC work on an OTA. Planning to connect to iata ndc sandbox
 
-# Initial Setup
-Set the environment variables - pointing to mvn directory, JAVA_HOME etc
+##### Initial Setup
+Set the environment variables: 
+M2_HOME, JAVA_HOME etc
 
-# Build command :
+##### Build command :
 `./mvnw clean build`
 
-# To Run the application :
+##### To Run the application :
 `./mvnw spring-boot:run`
 
 
