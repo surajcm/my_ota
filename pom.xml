@@ -15,6 +15,7 @@
 	<description>Online Travel Agent in Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<kotlin.version>1.3.70</kotlin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -24,6 +25,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter</artifactId>
+			<version>7.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphiql-spring-boot-starter</artifactId>
+			<version>7.0.1</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -57,6 +69,15 @@
 		   <artifactId>jaxb-impl</artifactId>
 		   <version>2.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
+		<!--<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.9.8</version>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -112,7 +133,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!--<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
 				<version>2.5.0</version>
@@ -124,7 +145,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>src/main/resources/schema/</source>
+								<source>src/main/xsd/</source>
 							</sources>
 							<arguments>
 								<argument>-XautoNameResolution</argument>
@@ -134,7 +155,68 @@
 							<clearOutputDir>false</clearOutputDir>
 						</configuration>
 					</execution>
-				</executions>				
+				</executions>
+			</plugin>-->
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.14.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<bindings>
+						<binding>
+							<fileset>
+								<directory>src/main/xjb</directory>
+								<includes>
+									<include>*.xjb</include>
+								</includes>
+							</fileset>
+						</binding>
+					</bindings>
+					<extension>true</extension>
+					<args>
+						<arg>-no-header</arg>
+						<arg>-npa</arg>
+						<arg>-Xfluent-api</arg>
+						<arg>-Xannotate</arg>
+						<arg>-XautoNameResolution</arg>
+					</args>
+					<schemas>
+						<schema>
+							<fileset>
+								<directory>src/main/xsd</directory>
+								<includes>
+									<include>**/*.xsd</include>
+								</includes>
+							</fileset>
+						</schema>
+					</schemas>
+					<generateDirectory>src/main/java</generateDirectory>
+					<generatePackage>com.online.travel.schema</generatePackage>
+					<plugins>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics</artifactId>
+							<version>1.11.1</version>
+						</plugin>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics-annotate</artifactId>
+							<version>1.1.0</version>
+						</plugin>
+						<plugin>
+							<groupId>net.java.dev.jaxb2-commons</groupId>
+							<artifactId>jaxb-fluent-api</artifactId>
+							<version>2.1.8</version>
+						</plugin>
+					</plugins>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

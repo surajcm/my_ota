@@ -1,11 +1,16 @@
 package com.online.travel.air.service;
 
 
+import com.online.travel.air.mapper.AirShopMapper;
 import com.online.travel.connector.air.AirShopConnector;
+import com.online.travel.schema.IATAAirShoppingRQ;
+import com.online.travel.schema.IATAAirShoppingRS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class AirServiceImpl implements AirService {
@@ -13,12 +18,17 @@ public class AirServiceImpl implements AirService {
     @Autowired
     private AirShopConnector airShopConnector;
 
+    @Autowired
+    private AirShopMapper airShopMapper;
+
     @Override
-    public String doAirShopping() {
+    public IATAAirShoppingRS doAirShopping(Map<String, String> params) {
         logger.info("Going to hit iata");
-        String url = "http://iata.api.mashery.com/athena/ndc192api";
-        String response = airShopConnector.doShopping(url);
-        logger.info(response);
+        IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(params);
+        logger.info("iataAirShoppingRQ is : "+iataAirShoppingRQ);
+
+        IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);
+        logger.info("Done... showing results");
         return response;
     }
 }

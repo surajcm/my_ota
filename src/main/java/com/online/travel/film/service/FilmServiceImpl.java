@@ -1,32 +1,20 @@
-package com.online.travel.film;
+package com.online.travel.film.service;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@RestController
-public class FilmController {
+@Service
+public class FilmServiceImpl implements FilmService {
 
-    /*
-     * Request URL : http://localhost:8080/allfilms
-     */
-    @GetMapping("/allfilms")
-    @ResponseBody
+    @Override
     public String getAllFilms() {
         final String uri = "https://swapi.dev/api/films/";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, String.class);
     }
 
-    /*
-     * Request URL : http://localhost:8080/film?id=1
-     * id can take any value from 1 to 6
-     */
-    @GetMapping("/film")
-    @ResponseBody
-    public String getFilmById(@RequestParam String id) {
+    @Override
+    public String getFilmById(String id) {
         String uri = "https://swapi.dev/api/films/"+id+"/";
         RestTemplate restTemplate = new RestTemplate();
         String result = "";

@@ -22,6 +22,6 @@ public class AirController {
     public ResponseEntity<Object> flightSearch(@RequestParam Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight search");
-        return new ResponseEntity<>(airService.doAirShopping(), HttpStatus.OK);
+        return new ResponseEntity<>(airService.doAirShopping(params), HttpStatus.OK);
     }
 }
