@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,21 +33,24 @@ import java.util.Map;
 @Component
 public class AirShopMapper {
     public IATAAirShoppingRQ mapShopRequest(Map<String, String> params) {
-        IATAAirShoppingRQ iataAirShoppingRQ = mockIATAShopReq();
-        return iataAirShoppingRQ;
-    }
+        //?adult=1
+        // &cabinClass=economy
+        // &links=AD,ABF,ASM
+        // &locale=en_US
+        // &slice1.origin=LHR
+        // &slice1.destination=BCN
+        // &segment1.departureDate=2019-06-30
 
-    private IATAAirShoppingRQ mockIATAShopReq() {
         IATAAirShoppingRQ iataAirShoppingRQ = new IATAAirShoppingRQ();
-        iataAirShoppingRQ.setMessageDoc(mockMessageDcc());
-        iataAirShoppingRQ.setParty(mockParty());
-        iataAirShoppingRQ.setPayloadAttributes(mockPayloadAttributes());
-        iataAirShoppingRQ.setPOS(mockPOS());
-        iataAirShoppingRQ.setRequest(mockRequest());
+        iataAirShoppingRQ.setMessageDoc(messageDoc());
+        iataAirShoppingRQ.setParty(party());
+        iataAirShoppingRQ.setPayloadAttributes(payloadAttributes());
+        iataAirShoppingRQ.setPOS(pos());
+        iataAirShoppingRQ.setRequest(request());
         return iataAirShoppingRQ;
     }
 
-    private RequestType mockRequest() {
+    private RequestType request() {
         RequestType request = new RequestType();
         request.setFlightCriteria(mockFlightCriteria());
         request.setPaxs(mockPaxs());
@@ -103,7 +107,7 @@ public class AirShopMapper {
 
         OriginDepCriteriaType originDepCriteria = new OriginDepCriteriaType();
         originDepCriteria.setIATALocationCode("BCN");
-        originDepCriteria.setDate(mockDate("2020-02-08"));
+        originDepCriteria.setDate(mockDate("2020-08-23"));
         originDestCriteria.setOriginDepCriteria(originDepCriteria);
         return originDestCriteria;
     }
@@ -116,7 +120,7 @@ public class AirShopMapper {
 
         OriginDepCriteriaType originDepCriteria = new OriginDepCriteriaType();
         originDepCriteria.setIATALocationCode("LHR");
-        originDepCriteria.setDate(mockDate("2020-07-09"));
+        originDepCriteria.setDate(mockDate("2020-08-25"));
         originDestCriteria.setOriginDepCriteria(originDepCriteria);
         CabinTypeType2 cabinTypeType = new CabinTypeType2();
         cabinTypeType.setCabinTypeCode("M");
@@ -128,7 +132,7 @@ public class AirShopMapper {
         return LocalDate.parse(date);
     }
 
-    private POSType mockPOS() {
+    private POSType pos() {
         POSType pos = new POSType();
         CityType2 cityType = new CityType2();
         cityType.setIATALocationCode("ATH");
@@ -136,37 +140,37 @@ public class AirShopMapper {
         CountryType2 country = new CountryType2();
         country.setCountryCode("GR");
         pos.setCountry(country);
-        pos.setRequestTime(mockTimeStamp("2020-10-12"));
+        pos.setRequestTime(currentTimeStamp());
         return pos;
     }
 
-    private IATAPayloadStandardAttributesType2 mockPayloadAttributes() {
+    private IATAPayloadStandardAttributesType2 payloadAttributes() {
         IATAPayloadStandardAttributesType2 payloadAttributes = new IATAPayloadStandardAttributesType2();
         payloadAttributes.setEchoTokenText("6bca263e-d1e8-4e2d-a648-40a400003526");
-        payloadAttributes.setTimestamp(mockTimeStamp("2001-02-07"));
+        payloadAttributes.setTimestamp(currentTimeStamp());
         payloadAttributes.setTrxID("transaction497");
         payloadAttributes.setVersionNumber(BigDecimal.valueOf(2019.2));
         return payloadAttributes;
     }
 
-    private DateTimeType2 mockTimeStamp(String time) {
+    private DateTimeType2 currentTimeStamp() {
         DateTimeType2 dateTimeType = new DateTimeType2();
-        dateTimeType.setValue(LocalDate.parse(time).atStartOfDay());
+        dateTimeType.setValue(ZonedDateTime.now());
         return dateTimeType;
     }
 
-    private PartyType mockParty() {
+    private PartyType party() {
         PartyType party = new PartyType();
         RecipientType recipient = new RecipientType();
-        recipient.setAggregator(mockAggregator());
+        recipient.setAggregator(aggregator());
         party.setRecipient(recipient);
         SenderType sender = new SenderType();
-        sender.setTravelAgency(mockTravelAgency());
+        sender.setTravelAgency(travelAgency());
         party.setSender(sender);
         return party;
     }
 
-    private TravelAgencyType2 mockTravelAgency() {
+    private TravelAgencyType2 travelAgency() {
         TravelAgencyType2 travelAgencyType = new TravelAgencyType2();
         travelAgencyType.setAgencyID("9A");
         travelAgencyType.setIATANumber(BigDecimal.valueOf(12312312));
@@ -174,14 +178,14 @@ public class AirShopMapper {
         return travelAgencyType;
     }
 
-    private AggregatorType mockAggregator() {
+    private AggregatorType aggregator() {
         AggregatorType aggregatorType = new AggregatorType();
         aggregatorType.setAggregatorID("88888888");
         aggregatorType.setName("JR TECHNOLOGIES");
         return aggregatorType;
     }
 
-    private MessageDocType2 mockMessageDcc() {
+    private MessageDocType2 messageDoc() {
         MessageDocType2 messageDoc = new MessageDocType2();
         messageDoc.setRefVersionNumber(BigDecimal.valueOf(1.0));
         return messageDoc;

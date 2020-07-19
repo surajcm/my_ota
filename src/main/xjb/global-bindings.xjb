@@ -11,7 +11,7 @@
             adapter="com.online.travel.dataaccess.serialization.LocalDateAdapter"
             name="java.time.LocalDate" xmlType="xs:date" />
         <xjc:javaType
-            adapter="com.online.travel.dataaccess.serialization.LocalDateTimeAdapter"
-            name="java.time.LocalDateTime" xmlType="xs:dateTime" />
+            adapter="com.online.travel.dataaccess.serialization.ZonedDateTimeAdapter"
+            name="java.time.ZonedDateTime" xmlType="xs:dateTime" />
     </jaxb:globalBindings>
 </jaxb:bindings>

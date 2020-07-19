@@ -25,7 +25,7 @@ public class AirServiceImpl implements AirService {
     public IATAAirShoppingRS doAirShopping(Map<String, String> params) {
         logger.info("Going to hit iata");
         IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(params);
-        logger.info("iataAirShoppingRQ is : "+iataAirShoppingRQ);
+
 
         IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);
         logger.info("Done... showing results");
