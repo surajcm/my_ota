@@ -1,5 +1,8 @@
 package com.online.travel.air.mapper;
 
+import com.online.travel.model.referencedata.PassengerType;
+import com.online.travel.model.request.MyAirShoppingRequest;
+import com.online.travel.model.request.Slice;
 import com.online.travel.schema.AggregatorType;
 import com.online.travel.schema.CabinTypeType2;
 import com.online.travel.schema.CityType2;
@@ -24,36 +27,31 @@ import com.online.travel.schema.TravelAgencyType2;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class AirShopMapper {
-    public IATAAirShoppingRQ mapShopRequest(Map<String, String> params) {
-        //?adult=1
-        // &cabinClass=economy
-        // &links=AD,ABF,ASM
-        // &locale=en_US
-        // &slice1.origin=LHR
-        // &slice1.destination=BCN
-        // &segment1.departureDate=2019-06-30
-
+    public IATAAirShoppingRQ mapShopRequest(Map<String, String> params, MyAirShoppingRequest myAirShoppingRequest) {
         IATAAirShoppingRQ iataAirShoppingRQ = new IATAAirShoppingRQ();
         iataAirShoppingRQ.setMessageDoc(messageDoc());
         iataAirShoppingRQ.setParty(party());
         iataAirShoppingRQ.setPayloadAttributes(payloadAttributes());
         iataAirShoppingRQ.setPOS(pos());
-        iataAirShoppingRQ.setRequest(request());
+        iataAirShoppingRQ.setRequest(request(params, myAirShoppingRequest));
         return iataAirShoppingRQ;
     }
 
-    private RequestType request() {
+    private RequestType request(Map<String, String> params, MyAirShoppingRequest myAirShoppingRequest) {
+        //?adult=1
+        // &cabinClass=economy
+        // &links=AD,ABF,ASM
+        // &locale=en_US
         RequestType request = new RequestType();
-        request.setFlightCriteria(mockFlightCriteria());
-        request.setPaxs(mockPaxs());
+        request.setFlightCriteria(flightCriteria(myAirShoppingRequest.getSlices()));
+        request.setPaxs(paxs(myAirShoppingRequest.getPassenger()));
         request.setShoppingCriteria(mockShoppingCriteria());
         return request;
     }
@@ -66,71 +64,51 @@ public class AirShopMapper {
         return shoppingCriteriaType;
     }
 
-    private PaxsType mockPaxs() {
+    private PaxsType paxs(Map<Integer, PassengerType> passengers) {
         PaxsType paxs = new PaxsType();
-        paxs.getPax().addAll(mockPaxsList());
+        paxs.getPax().addAll(paxsList(passengers));
         return paxs;
     }
 
-    private List<PaxType2> mockPaxsList() {
-        List<PaxType2> paxes = new ArrayList<>();
-        PaxType2 pax1 = new PaxType2();
-        pax1.setPaxID("Pax1");
-        pax1.setPTC("ADT");
-        PaxType2 pax2 = new PaxType2();
-        pax2.setPaxID("Pax2");
-        pax2.setPTC("CHD");
-        paxes.add(pax1);
-        paxes.add(pax2);
-        return paxes;
+    private List<PaxType2> paxsList(Map<Integer, PassengerType> passengers) {
+        return passengers.entrySet().stream().map(this::buildPassenger).collect(Collectors.toList());
     }
 
-    private FlightRequestType mockFlightCriteria() {
-        FlightRequestType flightRequestType = new FlightRequestType();
-        flightRequestType.getOriginDestCriteria().addAll(mockOriginDestCriteria());
+    private PaxType2 buildPassenger(Map.Entry<Integer, PassengerType> passenger) {
+        PaxType2 pax = new PaxType2();
+        pax.setPaxID("Pax" + passenger.getKey());
+        pax.setPTC(passenger.getValue().name());
+        return pax;
+    }
 
+    private FlightRequestType flightCriteria(List<Slice> slices) {
+        FlightRequestType flightRequestType = new FlightRequestType();
+        flightRequestType.getOriginDestCriteria().addAll(originDestCriteria(slices));
         return flightRequestType;
     }
 
-    private List<OriginDestCriteriaType> mockOriginDestCriteria() {
-        List<OriginDestCriteriaType> criteriaList = new ArrayList<>();
-        criteriaList.add(firstOriginDestCriteria());
-        criteriaList.add(secondOriginDestCriteria());
-        return criteriaList;
+    private List<OriginDestCriteriaType> originDestCriteria(List<Slice> slices) {
+        return slices.stream().map(this::originDestCriteria).collect(Collectors.toList());
     }
 
-    private OriginDestCriteriaType firstOriginDestCriteria() {
+    private OriginDestCriteriaType originDestCriteria(Slice slice) {
         OriginDestCriteriaType originDestCriteria = new OriginDestCriteriaType();
         DestArrivalCriteriaType destArrivalCriteriaType = new DestArrivalCriteriaType();
-        destArrivalCriteriaType.setIATALocationCode("LHR");
+        destArrivalCriteriaType.setIATALocationCode(slice.getOrigin());
         originDestCriteria.setDestArrivalCriteria(destArrivalCriteriaType);
 
         OriginDepCriteriaType originDepCriteria = new OriginDepCriteriaType();
-        originDepCriteria.setIATALocationCode("BCN");
-        originDepCriteria.setDate(mockDate("2020-08-23"));
+        originDepCriteria.setIATALocationCode(slice.getDestination());
+        originDepCriteria.setDate(slice.getDepartureDate());
         originDestCriteria.setOriginDepCriteria(originDepCriteria);
+        if (slice.getCabinTypeCode() != null) {
+            CabinTypeType2 cabinTypeType = new CabinTypeType2();
+            cabinTypeType.setCabinTypeCode(slice.getCabinTypeCode().name());
+            originDestCriteria.getPreferredCabinType().add(cabinTypeType);
+        }
         return originDestCriteria;
     }
 
-    private OriginDestCriteriaType secondOriginDestCriteria() {
-        OriginDestCriteriaType originDestCriteria = new OriginDestCriteriaType();
-        DestArrivalCriteriaType destArrivalCriteria = new DestArrivalCriteriaType();
-        destArrivalCriteria.setIATALocationCode("BCN");
-        originDestCriteria.setDestArrivalCriteria(destArrivalCriteria);
-
-        OriginDepCriteriaType originDepCriteria = new OriginDepCriteriaType();
-        originDepCriteria.setIATALocationCode("LHR");
-        originDepCriteria.setDate(mockDate("2020-08-25"));
-        originDestCriteria.setOriginDepCriteria(originDepCriteria);
-        CabinTypeType2 cabinTypeType = new CabinTypeType2();
-        cabinTypeType.setCabinTypeCode("M");
-        originDestCriteria.getPreferredCabinType().add(cabinTypeType);
-        return originDestCriteria;
-    }
-
-    private LocalDate mockDate(String date) {
-        return LocalDate.parse(date);
-    }
 
     private POSType pos() {
         POSType pos = new POSType();

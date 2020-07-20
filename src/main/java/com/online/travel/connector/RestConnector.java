@@ -14,8 +14,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.JAXBElement;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class RestConnector<T> {
     private static final Logger logger = LoggerFactory.getLogger(RestConnector.class);
@@ -42,21 +40,4 @@ public class RestConnector<T> {
         }
         return responseEntity;
     }
-    public String buildRequestUrl(String url, Map<String, String> requestParams, String airOfferToken) {
-        StringBuilder requestUri = new StringBuilder();
-        if (airOfferToken != null) {
-            requestUri.append(url).append("/").append(airOfferToken);
-        } else {
-            requestUri.append(url).append("?").append(buildRequestParameters(requestParams));
-        }
-        return requestUri.toString();
-    }
-    private String buildRequestParameters(Map<String, String> requestParams) {
-        return requestParams.entrySet()
-                .stream()
-                .map(entry -> entry.getKey() + "=" + entry.getValue())
-                .collect(Collectors.joining("&"));
-    }
-
-
 }

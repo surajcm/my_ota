@@ -40,15 +40,16 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
+			<version>3.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
+			<version>3.0.0</version>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 		    <groupId>javax.activation</groupId>
 		    <artifactId>activation</artifactId>
@@ -73,11 +74,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-oxm</artifactId>
 		</dependency>
-		<!--<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-			<version>2.9.8</version>
-		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -133,30 +129,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>2.5.0</version>
-				<executions>
-					<execution>
-						<id>xjc</id>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/xsd/</source>
-							</sources>
-							<arguments>
-								<argument>-XautoNameResolution</argument>
-							</arguments>
-							<packageName>com.online.travel.schema</packageName>
-							<outputDirectory>src/main/java</outputDirectory>
-							<clearOutputDir>false</clearOutputDir>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>-->
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>

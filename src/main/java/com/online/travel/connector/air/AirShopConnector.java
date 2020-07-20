@@ -24,7 +24,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     private String url = "http://iata.api.mashery.com/athena/ndc192api";
 
     public IATAAirShoppingRS doShopping(IATAAirShoppingRQ iataAirShoppingRQ) {
-        //logRequest(iataAirShoppingRQ);
+        logRequest(iataAirShoppingRQ);
         ResponseEntity<IATAAirShoppingRS> responseEntity = process(url,
                 HttpMethod.POST,
                 mockEntity(iataAirShoppingRQ), IATAAirShoppingRS.class);
