@@ -12,5 +12,8 @@ public class AirShopValidator {
         if (myAirShoppingRequest.getSlices().size() == 0 ) {
             throw new MyOtaException("400", HttpStatus.BAD_REQUEST);
         }
+        if (myAirShoppingRequest.getPassenger().size() == 0 ) {
+            throw new MyOtaException("400", HttpStatus.BAD_REQUEST);
+        }
     }
 }

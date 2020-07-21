@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @Service
 public class AirServiceImpl implements AirService {
     private static final Logger logger = LoggerFactory.getLogger(AirServiceImpl.class);
@@ -28,11 +26,9 @@ public class AirServiceImpl implements AirService {
     private AirShopConnector airShopConnector;
 
     @Override
-    public IATAAirShoppingRS doAirShopping(Map<String, String> params, MyAirShoppingRequest myAirShoppingRequest) {
+    public IATAAirShoppingRS doAirShopping(MyAirShoppingRequest myAirShoppingRequest) {
         logger.info("Going to hit iata");
-
-        IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(params, myAirShoppingRequest);
-
+        IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
         IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);
         logger.info("Done... showing results");
         return response;

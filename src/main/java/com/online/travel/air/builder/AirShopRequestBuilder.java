@@ -21,7 +21,18 @@ public class AirShopRequestBuilder {
         //Map<String, String> params2 = buildMockParams();
         myAirShoppingRequest.setSlices(getSlices(params));
         myAirShoppingRequest.setPassenger(getPassengers(params));
+        myAirShoppingRequest.setCabinTypeCode(getCabinType(params));
         return myAirShoppingRequest;
+    }
+
+    private CabinTypeCode getCabinType(Map<String, String> params) {
+        // &cabinClass=economy
+        CabinTypeCode cabinTypeCode = null;
+        if (params.containsKey("cabinClass")) {
+            String val = params.get("cabinClass");
+            cabinTypeCode = CabinTypeCode.fromDescription(val).orElse(null);
+        }
+        return cabinTypeCode;
     }
 
     private Map<String, String> buildMockParams() {
@@ -48,13 +59,8 @@ public class AirShopRequestBuilder {
     }
 
     private List<Slice> getSlices(Map<String, String> params) {
-        Map<String, String> sliceMap = getSliceOnlyMap(params);
-        return createListOfSliceMaps(sliceMap);
-    }
-
-    private List<Slice> createListOfSliceMaps(Map<String, String> sliceMap) {
         Map<String, Slice> slices = new HashMap<>();
-
+        Map<String, String> sliceMap = getSliceOnlyMap(params);
         for (Map.Entry<String, String> entry : sliceMap.entrySet()) {
             String currentKey = entry.getKey().split("\\.")[0];
             Slice slice;
@@ -89,10 +95,26 @@ public class AirShopRequestBuilder {
 
     private Map<Integer, PassengerType> getPassengers(Map<String, String> params) {
         //?adult=1&child=2
-        //todo: build with actual params
-        Map<Integer, PassengerType> passengers = new HashMap<>();
-        passengers.put(1, PassengerType.ADT);
-        passengers.put(2, PassengerType.CHD);
-        return passengers;
+        Map<Integer, PassengerType> originalPassengers = new HashMap<>();
+        originalPassengers.putAll(addPassenger(params,"adult", PassengerType.ADT, 1));
+        originalPassengers.putAll(addPassenger(params,"child", PassengerType.CHD, originalPassengers.size()+1));
+        originalPassengers.putAll(addPassenger(params,"senior", PassengerType.SRC, originalPassengers.size()+1));
+        return originalPassengers;
+    }
+
+    private Map<Integer, PassengerType> addPassenger(Map<String, String> params,
+                                                           String type,
+                                                           PassengerType passengerType,
+                                                           int passengerCount) {
+        Map<Integer, PassengerType> originalPassengers = new HashMap<>();
+        if (params.containsKey(type)) {
+            int count = Integer.parseInt(params.get(type));
+            while (count > 0) {
+                originalPassengers.put(passengerCount, passengerType);
+                passengerCount++;
+                count--;
+            }
+        }
+        return originalPassengers;
     }
 }

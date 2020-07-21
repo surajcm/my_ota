@@ -43,6 +43,6 @@ public class AirController {
         MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
         validator.validate(myAirShoppingRequest);
 
-        return new ResponseEntity<>(airService.doAirShopping(params, myAirShoppingRequest), HttpStatus.OK);
+        return new ResponseEntity<>(airService.doAirShopping(myAirShoppingRequest), HttpStatus.OK);
     }
 }

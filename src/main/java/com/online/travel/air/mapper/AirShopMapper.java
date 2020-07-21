@@ -1,5 +1,6 @@
 package com.online.travel.air.mapper;
 
+import com.online.travel.model.referencedata.CabinTypeCode;
 import com.online.travel.model.referencedata.PassengerType;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.model.request.Slice;
@@ -34,17 +35,17 @@ import java.util.stream.Collectors;
 
 @Component
 public class AirShopMapper {
-    public IATAAirShoppingRQ mapShopRequest(Map<String, String> params, MyAirShoppingRequest myAirShoppingRequest) {
+    public IATAAirShoppingRQ mapShopRequest(MyAirShoppingRequest myAirShoppingRequest) {
         IATAAirShoppingRQ iataAirShoppingRQ = new IATAAirShoppingRQ();
         iataAirShoppingRQ.setMessageDoc(messageDoc());
         iataAirShoppingRQ.setParty(party());
         iataAirShoppingRQ.setPayloadAttributes(payloadAttributes());
         iataAirShoppingRQ.setPOS(pos());
-        iataAirShoppingRQ.setRequest(request(params, myAirShoppingRequest));
+        iataAirShoppingRQ.setRequest(request(myAirShoppingRequest));
         return iataAirShoppingRQ;
     }
 
-    private RequestType request(Map<String, String> params, MyAirShoppingRequest myAirShoppingRequest) {
+    private RequestType request(MyAirShoppingRequest myAirShoppingRequest) {
         //?adult=1
         // &cabinClass=economy
         // &links=AD,ABF,ASM
@@ -52,15 +53,17 @@ public class AirShopMapper {
         RequestType request = new RequestType();
         request.setFlightCriteria(flightCriteria(myAirShoppingRequest.getSlices()));
         request.setPaxs(paxs(myAirShoppingRequest.getPassenger()));
-        request.setShoppingCriteria(mockShoppingCriteria());
+        request.setShoppingCriteria(shoppingCriteria(myAirShoppingRequest.getCabinTypeCode()));
         return request;
     }
 
-    private ShoppingCriteriaType mockShoppingCriteria() {
+    private ShoppingCriteriaType shoppingCriteria(CabinTypeCode cabinTypeCode) {
         ShoppingCriteriaType shoppingCriteriaType = new ShoppingCriteriaType();
-        CabinTypeType2 cabinTypeType = new CabinTypeType2();
-        cabinTypeType.setCabinTypeCode("M");
-        shoppingCriteriaType.getCabinTypeCriteria().add(cabinTypeType);
+        if (cabinTypeCode != null) {
+            CabinTypeType2 cabinTypeType = new CabinTypeType2();
+            cabinTypeType.setCabinTypeCode(cabinTypeCode.name());
+            shoppingCriteriaType.getCabinTypeCriteria().add(cabinTypeType);
+        }
         return shoppingCriteriaType;
     }
 
