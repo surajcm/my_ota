@@ -4,6 +4,7 @@ import com.online.travel.air.builder.AirShopRequestBuilder;
 import com.online.travel.air.service.AirService;
 import com.online.travel.air.validator.AirShopValidator;
 import com.online.travel.model.request.MyAirShoppingRequest;
+import com.online.travel.schema.IATAAirShoppingRS;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +43,7 @@ public class AirController {
         logger.info("Inside the flight search");
         MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
         validator.validate(myAirShoppingRequest);
-
-        return new ResponseEntity<>(airService.doAirShopping(myAirShoppingRequest), HttpStatus.OK);
+        IATAAirShoppingRS iataAirShoppingRS = airService.doAirShopping(myAirShoppingRequest);
+        return new ResponseEntity<>(iataAirShoppingRS, HttpStatus.OK);
     }
 }
