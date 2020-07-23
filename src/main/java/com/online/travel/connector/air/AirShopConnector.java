@@ -6,6 +6,7 @@ import com.online.travel.schema.IATAAirShoppingRQ;
 import com.online.travel.schema.IATAAirShoppingRS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,12 +21,13 @@ import java.io.StringWriter;
 @Component
 public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     private static final Logger logger = LoggerFactory.getLogger(AirShopConnector.class);
-    //todo: read this from a yml
-    private String url = "http://iata.api.mashery.com/athena/ndc192api";
+
+    @Value("${air.shop.url}")
+    private String shopUrl;
 
     public IATAAirShoppingRS doShopping(IATAAirShoppingRQ iataAirShoppingRQ) {
         logRequest(iataAirShoppingRQ);
-        ResponseEntity<IATAAirShoppingRS> responseEntity = process(url,
+        ResponseEntity<IATAAirShoppingRS> responseEntity = process(shopUrl,
                 HttpMethod.POST,
                 mockEntity(iataAirShoppingRQ), IATAAirShoppingRS.class);
         //logResponse(responseEntity.getBody());

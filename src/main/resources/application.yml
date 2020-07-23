@@ -1,6 +1,25 @@
 server:
   port:
     8090
+
+spring:
+  application:
+    name:
+      MyOtaApp
+
+logging:
+  level:
+    com:
+      online:
+        travel:
+          INFO
+  file:
+    clean-history-on-start:
+      true
+    name:
+      logs/${spring.application.name}.log  
+
+
 graphql:
   servlet:
     mapping: /graphql
@@ -12,3 +31,8 @@ graphiql:
   static:
     basePath: /
   enabled: true
+
+air:
+  shop:
+    url:
+      http://iata.api.mashery.com/athena/ndc192api
