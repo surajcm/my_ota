@@ -82,7 +82,7 @@ public class AirShopMapper {
         pax.setPaxID("Pax" + passenger.getKey());
         pax.setPTC(passenger.getValue().name());
         return pax;
-    }
+    } 
 
     private FlightRequestType flightCriteria(List<Slice> slices) {
         FlightRequestType flightRequestType = new FlightRequestType();

@@ -41,7 +41,6 @@ public class AirController {
     public ResponseEntity<Object> flightSearch(@RequestParam Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight search");
-
         MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
         validator.validate(myAirShoppingRequest);
         IATAAirShoppingRS iataAirShoppingRS = airService.doAirShopping(myAirShoppingRequest);
