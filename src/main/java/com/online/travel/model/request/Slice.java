@@ -17,13 +17,15 @@ public class Slice {
     public Slice() {
         //empty
     }
-    public Slice(String origin, String destination, LocalDate departureDate) {
+
+    public Slice(final String origin, final String destination, final LocalDate departureDate) {
         this.origin = origin;
         this.destination = destination;
         this.departureDate = departureDate;
     }
 
-    public Slice(String origin, String destination, LocalDate departureDate, CabinTypeCode cabinTypeCode) {
+    public Slice(final String origin, final String destination, final LocalDate departureDate,
+                 final CabinTypeCode cabinTypeCode) {
         this.origin = origin;
         this.destination = destination;
         this.departureDate = departureDate;
@@ -46,19 +48,19 @@ public class Slice {
         return cabinTypeCode;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin(final String origin) {
         this.origin = origin;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(final String destination) {
         this.destination = destination;
     }
 
-    public void setDepartureDate(LocalDate departureDate) {
+    public void setDepartureDate(final LocalDate departureDate) {
         this.departureDate = departureDate;
     }
 
-    public void setCabinTypeCode(CabinTypeCode cabinTypeCode) {
+    public void setCabinTypeCode(final CabinTypeCode cabinTypeCode) {
         this.cabinTypeCode = cabinTypeCode;
     }
 }

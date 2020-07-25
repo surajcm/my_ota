@@ -9,12 +9,12 @@ import static java.time.format.DateTimeFormatter.ISO_DATE;
 
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     @Override
-    public LocalDate unmarshal(String date) throws Exception {
+    public LocalDate unmarshal(final String date) throws Exception {
         return LocalDate.parse(date, ISO_DATE);
     }
 
     @Override
-    public String marshal(LocalDate date) throws Exception {
+    public String marshal(final LocalDate date) throws Exception {
         return Optional.ofNullable(date).map(LocalDate::toString).orElse(null);
     }
 }

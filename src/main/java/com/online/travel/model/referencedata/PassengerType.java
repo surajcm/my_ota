@@ -11,7 +11,7 @@ public enum PassengerType {
         return this.description;
     }
 
-    private PassengerType(String description) {
+    private PassengerType(final String description) {
         this.description = description;
     }
 }

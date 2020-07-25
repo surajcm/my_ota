@@ -26,7 +26,7 @@ public class AirServiceImpl implements AirService {
     private AirShopConnector airShopConnector;
 
     @Override
-    public IATAAirShoppingRS doAirShopping(MyAirShoppingRequest myAirShoppingRequest) {
+    public IATAAirShoppingRS doAirShopping(final MyAirShoppingRequest myAirShoppingRequest) {
         logger.info("Going to hit iata");
         IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
         IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);

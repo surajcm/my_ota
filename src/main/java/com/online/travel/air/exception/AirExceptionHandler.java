@@ -11,9 +11,9 @@ import org.springframework.web.context.request.WebRequest;
 public class AirExceptionHandler {
 
     @ExceptionHandler({MyOtaException.class})
-    public ResponseEntity<Object> handleAccessDeniedException(MyOtaException ex, WebRequest request) {
+    public ResponseEntity<Object> handleAccessDeniedException(final MyOtaException ex, final WebRequest request) {
         //todo: define a format for error response
-        return new ResponseEntity<>(ex.getErrorCode() + " : "+ ex.getErrorMessage(),
+        return new ResponseEntity<>(ex.getErrorCode() + " : " + ex.getErrorMessage(),
                 new HttpHeaders(),
                 ex.getStatus());
     }

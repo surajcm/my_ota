@@ -20,24 +20,28 @@ public class RestConnector<T> {
     @Autowired
     private RestTemplate restTemplate;
 
-    public ResponseEntity<T> process(String url, HttpMethod method,
-                                     HttpEntity<?> requestEntity,
-                                     Class<T> responseType) throws MyOtaException {
+    public ResponseEntity<T> process(final String url,
+                                     final HttpMethod method,
+                                     final HttpEntity<?> requestEntity,
+                                     final Class<T> responseType) throws MyOtaException {
         ResponseEntity<T> responseEntity;
         try {
             responseEntity = restTemplate.exchange(url, method, requestEntity, responseType);
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            throw new MyOtaException(e.getResponseBodyAsString(), e.getStatusCode());
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            throw new MyOtaException(ex.getResponseBodyAsString(), ex.getStatusCode());
         }
-
         //assuming all error responses are of same type
         if (responseEntity.getBody() instanceof JAXBElement) {
-            JAXBElement<ErrorsType> errorResponse = (JAXBElement<ErrorsType>) responseEntity.getBody();
-            logger.info("An error occurred :" + errorResponse.getValue().getError().getValue());
-            throw new MyOtaException(errorResponse.getValue().getError().getCode(),
-                    errorResponse.getValue().getError().getValue(),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            return generateExceptionFromErrorMessage(responseEntity);
         }
         return responseEntity;
+    }
+
+    private ResponseEntity<T> generateExceptionFromErrorMessage(final ResponseEntity<T> responseEntity) {
+        JAXBElement<ErrorsType> errorResponse = (JAXBElement<ErrorsType>) responseEntity.getBody();
+        logger.info("An error occurred :" + errorResponse.getValue().getError().getValue());
+        throw new MyOtaException(errorResponse.getValue().getError().getCode(),
+                errorResponse.getValue().getError().getValue(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -38,7 +38,7 @@ public class AirController {
     @GetMapping(value = "/listings/", produces = "application/json")
     @ApiOperation(value = "Do an air shopping", response = ResponseEntity.class)
     @ApiModelProperty(value = "params", reference = "Map")
-    public ResponseEntity<Object> flightSearch(@RequestParam Map<String, String> params)
+    public ResponseEntity<Object> flightSearch(@RequestParam final Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight search");
         MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);

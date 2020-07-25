@@ -15,7 +15,7 @@ public class MyAirShoppingRequest {
         return slices;
     }
 
-    public void setSlices(List<Slice> slices) {
+    public void setSlices(final List<Slice> slices) {
         this.slices = slices;
     }
 
@@ -23,7 +23,7 @@ public class MyAirShoppingRequest {
         return passenger;
     }
 
-    public void setPassenger(Map<Integer, PassengerType> passenger) {
+    public void setPassenger(final Map<Integer, PassengerType> passenger) {
         this.passenger = passenger;
     }
 
@@ -31,7 +31,7 @@ public class MyAirShoppingRequest {
         return cabinTypeCode;
     }
 
-    public void setCabinTypeCode(CabinTypeCode cabinTypeCode) {
+    public void setCabinTypeCode(final CabinTypeCode cabinTypeCode) {
         this.cabinTypeCode = cabinTypeCode;
     }
 }

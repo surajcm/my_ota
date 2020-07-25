@@ -18,10 +18,11 @@ public enum CabinTypeCode {
         return this.description;
     }
 
-    private CabinTypeCode(String description) {
+    CabinTypeCode(final String description) {
         this.description = description;
     }
-    public static Optional<CabinTypeCode> fromDescription(String description) {
+
+    public static Optional<CabinTypeCode> fromDescription(final String description) {
         return Arrays.stream(CabinTypeCode.values())
                 .filter(c -> c.description.equalsIgnoreCase(description))
                 .findFirst();

@@ -25,7 +25,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     @Value("${air.shop.url}")
     private String shopUrl;
 
-    public IATAAirShoppingRS doShopping(IATAAirShoppingRQ iataAirShoppingRQ) {
+    public IATAAirShoppingRS doShopping(final IATAAirShoppingRQ iataAirShoppingRQ) {
         logRequest(iataAirShoppingRQ);
         ResponseEntity<IATAAirShoppingRS> responseEntity = process(shopUrl,
                 HttpMethod.POST,
@@ -34,7 +34,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
         return responseEntity.getBody();
     }
 
-    private void logResponse(IATAAirShoppingRS body) {
+    private void logResponse(final IATAAirShoppingRS body) {
         logger.info("logging response ");
         try {
             JAXBContext contextObj = JAXBContext.newInstance(IATAAirShoppingRS.class);
@@ -44,12 +44,12 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
             marshallerObj.marshal(body, sw);
             String xmlContent = sw.toString();
             logger.info(xmlContent);
-        } catch (JAXBException e) {
-            e.printStackTrace();
+        } catch (JAXBException ex) {
+            ex.printStackTrace();
         }
     }
 
-    private void logRequest(IATAAirShoppingRQ iataAirShoppingRQ) {
+    private void logRequest(final IATAAirShoppingRQ iataAirShoppingRQ) {
         logger.info("logging request");
         try {
             JAXBContext contextObj = JAXBContext.newInstance(IATAAirShoppingRS.class);
@@ -59,12 +59,12 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
             marshallerObj.marshal(iataAirShoppingRQ, sw);
             String xmlContent = sw.toString();
             logger.info(xmlContent);
-        } catch (JAXBException e) {
-            e.printStackTrace();
+        } catch (JAXBException ex) {
+            ex.printStackTrace();
         }
     }
 
-    private HttpEntity<IATAAirShoppingRQ> mockEntity(IATAAirShoppingRQ iataAirShoppingRQ) {
+    private HttpEntity<IATAAirShoppingRQ> mockEntity(final IATAAirShoppingRQ iataAirShoppingRQ) {
         return new HttpEntity<>(iataAirShoppingRQ, getHeaders());
     }
 

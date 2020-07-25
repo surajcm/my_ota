@@ -14,7 +14,7 @@ public class FilmController {
     private FilmService filmService;
 
     /**
-     * Request URL : http://localhost:8080/allfilms
+     * Request URL : http://localhost:8080/allfilms .
      */
     @GetMapping("/allfilms")
     @ResponseBody
@@ -23,12 +23,12 @@ public class FilmController {
     }
 
     /**
-     * Request URL : http://localhost:8080/film?id=1
+     * Request URL : http://localhost:8080/film?id=1 .
      * id can take any value from 1 to 6
      */
     @GetMapping("/film")
     @ResponseBody
-    public String getFilmById(@RequestParam String id) {
+    public String getFilmById(@RequestParam final String id) {
         return filmService.getFilmById(id);
     }
 }

@@ -7,12 +7,12 @@ import java.util.Optional;
 
 public class ZonedDateTimeAdapter extends XmlAdapter<String, ZonedDateTime> {
     @Override
-    public ZonedDateTime unmarshal(String v) throws Exception {
-        return ZonedDateTime.parse(v);
+    public ZonedDateTime unmarshal(final String dateVal) throws Exception {
+        return ZonedDateTime.parse(dateVal);
     }
 
     @Override
-    public String marshal(ZonedDateTime v) throws Exception {
-        return Optional.ofNullable(v).map(DateTimeFormatter.ISO_OFFSET_DATE_TIME::format).orElse(null);
+    public String marshal(final ZonedDateTime dateVal) throws Exception {
+        return Optional.ofNullable(dateVal).map(DateTimeFormatter.ISO_OFFSET_DATE_TIME::format).orElse(null);
     }
 }

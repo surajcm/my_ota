@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AirShopValidator {
-    public void validate(MyAirShoppingRequest myAirShoppingRequest) throws MyOtaException {
+    public void validate(final MyAirShoppingRequest myAirShoppingRequest) throws MyOtaException {
         //lets do the validation
-        if (myAirShoppingRequest.getSlices().size() == 0 ) {
+        if (myAirShoppingRequest.getSlices().size() == 0) {
             throw new MyOtaException("400", HttpStatus.BAD_REQUEST);
         }
-        if (myAirShoppingRequest.getPassenger().size() == 0 ) {
+        if (myAirShoppingRequest.getPassenger().size() == 0) {
             throw new MyOtaException("400", HttpStatus.BAD_REQUEST);
         }
     }

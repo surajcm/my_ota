@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class AirShopMapper {
-    public IATAAirShoppingRQ mapShopRequest(MyAirShoppingRequest myAirShoppingRequest) {
+    public IATAAirShoppingRQ mapShopRequest(final MyAirShoppingRequest myAirShoppingRequest) {
         IATAAirShoppingRQ iataAirShoppingRQ = new IATAAirShoppingRQ();
         iataAirShoppingRQ.setMessageDoc(messageDoc());
         iataAirShoppingRQ.setParty(party());
@@ -45,7 +45,7 @@ public class AirShopMapper {
         return iataAirShoppingRQ;
     }
 
-    private RequestType request(MyAirShoppingRequest myAirShoppingRequest) {
+    private RequestType request(final MyAirShoppingRequest myAirShoppingRequest) {
         //?adult=1
         // &cabinClass=economy
         // &links=AD,ABF,ASM
@@ -57,7 +57,7 @@ public class AirShopMapper {
         return request;
     }
 
-    private ShoppingCriteriaType shoppingCriteria(CabinTypeCode cabinTypeCode) {
+    private ShoppingCriteriaType shoppingCriteria(final CabinTypeCode cabinTypeCode) {
         ShoppingCriteriaType shoppingCriteriaType = new ShoppingCriteriaType();
         if (cabinTypeCode != null) {
             CabinTypeType2 cabinTypeType = new CabinTypeType2();
@@ -67,34 +67,34 @@ public class AirShopMapper {
         return shoppingCriteriaType;
     }
 
-    private PaxsType paxs(Map<Integer, PassengerType> passengers) {
+    private PaxsType paxs(final Map<Integer, PassengerType> passengers) {
         PaxsType paxs = new PaxsType();
         paxs.getPax().addAll(paxsList(passengers));
         return paxs;
     }
 
-    private List<PaxType2> paxsList(Map<Integer, PassengerType> passengers) {
+    private List<PaxType2> paxsList(final Map<Integer, PassengerType> passengers) {
         return passengers.entrySet().stream().map(this::buildPassenger).collect(Collectors.toList());
     }
 
-    private PaxType2 buildPassenger(Map.Entry<Integer, PassengerType> passenger) {
+    private PaxType2 buildPassenger(final Map.Entry<Integer, PassengerType> passenger) {
         PaxType2 pax = new PaxType2();
         pax.setPaxID("Pax" + passenger.getKey());
         pax.setPTC(passenger.getValue().name());
         return pax;
-    } 
+    }
 
-    private FlightRequestType flightCriteria(List<Slice> slices) {
+    private FlightRequestType flightCriteria(final List<Slice> slices) {
         FlightRequestType flightRequestType = new FlightRequestType();
         flightRequestType.getOriginDestCriteria().addAll(originDestCriteria(slices));
         return flightRequestType;
     }
 
-    private List<OriginDestCriteriaType> originDestCriteria(List<Slice> slices) {
+    private List<OriginDestCriteriaType> originDestCriteria(final List<Slice> slices) {
         return slices.stream().map(this::originDestCriteria).collect(Collectors.toList());
     }
 
-    private OriginDestCriteriaType originDestCriteria(Slice slice) {
+    private OriginDestCriteriaType originDestCriteria(final Slice slice) {
         OriginDestCriteriaType originDestCriteria = new OriginDestCriteriaType();
         DestArrivalCriteriaType destArrivalCriteriaType = new DestArrivalCriteriaType();
         destArrivalCriteriaType.setIATALocationCode(slice.getOrigin());
