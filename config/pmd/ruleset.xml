@@ -19,7 +19,7 @@
         PMD Rules Configuration
     </description>
 
-    <exclude-pattern>.*Mock\.java</exclude-pattern>
+    <exclude-pattern>.*/com/online/travel/schema/.*</exclude-pattern>
 
     <rule ref="category/java/bestpractices.xml">
         <exclude name="GuardLogStatement"/>

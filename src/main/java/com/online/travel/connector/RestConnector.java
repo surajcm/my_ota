@@ -1,7 +1,7 @@
 package com.online.travel.connector;
 
 import com.online.travel.exception.MyOtaException;
-import com.online.travel.schema.ErrorsType;
+import com.online.travel.schema.error.ErrorsType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

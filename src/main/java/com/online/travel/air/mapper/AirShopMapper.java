@@ -4,27 +4,27 @@ import com.online.travel.model.referencedata.CabinTypeCode;
 import com.online.travel.model.referencedata.PassengerType;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.model.request.Slice;
-import com.online.travel.schema.AggregatorType;
-import com.online.travel.schema.CabinTypeType2;
-import com.online.travel.schema.CityType2;
-import com.online.travel.schema.CountryType2;
-import com.online.travel.schema.DateTimeType2;
-import com.online.travel.schema.DestArrivalCriteriaType;
-import com.online.travel.schema.FlightRequestType;
-import com.online.travel.schema.IATAAirShoppingRQ;
-import com.online.travel.schema.IATAPayloadStandardAttributesType2;
-import com.online.travel.schema.MessageDocType2;
-import com.online.travel.schema.OriginDepCriteriaType;
-import com.online.travel.schema.OriginDestCriteriaType;
-import com.online.travel.schema.POSType;
-import com.online.travel.schema.PartyType;
-import com.online.travel.schema.PaxType2;
-import com.online.travel.schema.PaxsType;
-import com.online.travel.schema.RecipientType;
-import com.online.travel.schema.RequestType;
-import com.online.travel.schema.SenderType;
-import com.online.travel.schema.ShoppingCriteriaType;
-import com.online.travel.schema.TravelAgencyType2;
+import com.online.travel.schema.request.shop.AggregatorType;
+import com.online.travel.schema.request.shop.CabinTypeType;
+import com.online.travel.schema.request.shop.CityType;
+import com.online.travel.schema.request.shop.CountryType;
+import com.online.travel.schema.request.shop.DateTimeType;
+import com.online.travel.schema.request.shop.DestArrivalCriteriaType;
+import com.online.travel.schema.request.shop.FlightRequestType;
+import com.online.travel.schema.request.shop.IATAAirShoppingRQ;
+import com.online.travel.schema.request.shop.IATAPayloadStandardAttributesType;
+import com.online.travel.schema.request.shop.MessageDocType;
+import com.online.travel.schema.request.shop.OriginDepCriteriaType;
+import com.online.travel.schema.request.shop.OriginDestCriteriaType;
+import com.online.travel.schema.request.shop.POSType;
+import com.online.travel.schema.request.shop.PartyType;
+import com.online.travel.schema.request.shop.PaxType;
+import com.online.travel.schema.request.shop.PaxsType;
+import com.online.travel.schema.request.shop.RecipientType;
+import com.online.travel.schema.request.shop.RequestType;
+import com.online.travel.schema.request.shop.SenderType;
+import com.online.travel.schema.request.shop.ShoppingCriteriaType;
+import com.online.travel.schema.request.shop.TravelAgencyType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -60,7 +60,7 @@ public class AirShopMapper {
     private ShoppingCriteriaType shoppingCriteria(final CabinTypeCode cabinTypeCode) {
         ShoppingCriteriaType shoppingCriteriaType = new ShoppingCriteriaType();
         if (cabinTypeCode != null) {
-            CabinTypeType2 cabinTypeType = new CabinTypeType2();
+            CabinTypeType cabinTypeType = new CabinTypeType();
             cabinTypeType.setCabinTypeCode(cabinTypeCode.name());
             shoppingCriteriaType.getCabinTypeCriteria().add(cabinTypeType);
         }
@@ -73,12 +73,12 @@ public class AirShopMapper {
         return paxs;
     }
 
-    private List<PaxType2> paxsList(final Map<Integer, PassengerType> passengers) {
+    private List<PaxType> paxsList(final Map<Integer, PassengerType> passengers) {
         return passengers.entrySet().stream().map(this::buildPassenger).collect(Collectors.toList());
     }
 
-    private PaxType2 buildPassenger(final Map.Entry<Integer, PassengerType> passenger) {
-        PaxType2 pax = new PaxType2();
+    private PaxType buildPassenger(final Map.Entry<Integer, PassengerType> passenger) {
+        PaxType pax = new PaxType();
         pax.setPaxID("Pax" + passenger.getKey());
         pax.setPTC(passenger.getValue().name());
         return pax;
@@ -105,7 +105,7 @@ public class AirShopMapper {
         originDepCriteria.setDate(slice.getDepartureDate());
         originDestCriteria.setOriginDepCriteria(originDepCriteria);
         if (slice.getCabinTypeCode() != null) {
-            CabinTypeType2 cabinTypeType = new CabinTypeType2();
+            CabinTypeType cabinTypeType = new CabinTypeType();
             cabinTypeType.setCabinTypeCode(slice.getCabinTypeCode().name());
             originDestCriteria.getPreferredCabinType().add(cabinTypeType);
         }
@@ -115,18 +115,18 @@ public class AirShopMapper {
 
     private POSType pos() {
         POSType pos = new POSType();
-        CityType2 cityType = new CityType2();
+        CityType cityType = new CityType();
         cityType.setIATALocationCode("ATH");
         pos.setCity(cityType);
-        CountryType2 country = new CountryType2();
+        CountryType country = new CountryType();
         country.setCountryCode("GR");
         pos.setCountry(country);
         pos.setRequestTime(currentTimeStamp());
         return pos;
     }
 
-    private IATAPayloadStandardAttributesType2 payloadAttributes() {
-        IATAPayloadStandardAttributesType2 payloadAttributes = new IATAPayloadStandardAttributesType2();
+    private IATAPayloadStandardAttributesType payloadAttributes() {
+        IATAPayloadStandardAttributesType payloadAttributes = new IATAPayloadStandardAttributesType();
         payloadAttributes.setEchoTokenText("6bca263e-d1e8-4e2d-a648-40a400003526");
         payloadAttributes.setTimestamp(currentTimeStamp());
         payloadAttributes.setTrxID("transaction497");
@@ -134,8 +134,8 @@ public class AirShopMapper {
         return payloadAttributes;
     }
 
-    private DateTimeType2 currentTimeStamp() {
-        DateTimeType2 dateTimeType = new DateTimeType2();
+    private DateTimeType currentTimeStamp() {
+        DateTimeType dateTimeType = new DateTimeType();
         dateTimeType.setValue(ZonedDateTime.now());
         return dateTimeType;
     }
@@ -151,8 +151,8 @@ public class AirShopMapper {
         return party;
     }
 
-    private TravelAgencyType2 travelAgency() {
-        TravelAgencyType2 travelAgencyType = new TravelAgencyType2();
+    private TravelAgencyType travelAgency() {
+        TravelAgencyType travelAgencyType = new TravelAgencyType();
         travelAgencyType.setAgencyID("9A");
         travelAgencyType.setIATANumber(BigDecimal.valueOf(12312312));
         travelAgencyType.setName("Gods Travel");
@@ -166,8 +166,8 @@ public class AirShopMapper {
         return aggregatorType;
     }
 
-    private MessageDocType2 messageDoc() {
-        MessageDocType2 messageDoc = new MessageDocType2();
+    private MessageDocType messageDoc() {
+        MessageDocType messageDoc = new MessageDocType();
         messageDoc.setRefVersionNumber(BigDecimal.valueOf(1.0));
         return messageDoc;
     }

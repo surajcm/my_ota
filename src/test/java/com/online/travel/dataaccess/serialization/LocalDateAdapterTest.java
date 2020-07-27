@@ -28,7 +28,7 @@ class LocalDateAdapterTest {
     public void successfulMarshal() throws Exception {
         LocalDate date = LocalDate.of(2012,8,22);
         String convertedDate = LOCAL_DATE_ADAPTER.marshal(date);
-        Assertions.assertEquals("2012-08-22", date.toString());
+        Assertions.assertEquals(convertedDate, date.toString());
     }
 
 }

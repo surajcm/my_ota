@@ -153,7 +153,7 @@
 				<version>0.8.5</version>
 				<configuration>
 					<excludes>
-						<exclude>com/online/travel/schema/*</exclude>
+						<exclude>com/online/travel/schema/**/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -178,9 +178,74 @@
 				<version>0.14.0</version>
 				<executions>
 					<execution>
+						<id>shop-req-generate</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
+						<configuration>
+							<schemaDirectory>src/main/xsd</schemaDirectory>
+							<schemaIncludes>
+								<include>IATA_AirShoppingRQ.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.online.travel.schema.request.shop</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>shop-res-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/xsd</schemaDirectory>
+							<schemaIncludes>
+								<include>IATA_AirShoppingRS.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.online.travel.schema.response.shop</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>error-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/xsd</schemaDirectory>
+							<schemaIncludes>
+								<include>error.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.online.travel.schema.error</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>offer-req-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/xsd</schemaDirectory>
+							<schemaIncludes>
+								<include>IATA_OfferPriceRQ.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.online.travel.schema.request.offer</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>offer-res-generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/xsd</schemaDirectory>
+							<schemaIncludes>
+								<include>IATA_OfferPriceRS.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.online.travel.schema.response.offer</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
@@ -202,18 +267,6 @@
 						<arg>-Xannotate</arg>
 						<arg>-XautoNameResolution</arg>
 					</args>
-					<schemas>
-						<schema>
-							<fileset>
-								<directory>src/main/xsd</directory>
-								<includes>
-									<include>**/*.xsd</include>
-								</includes>
-							</fileset>
-						</schema>
-					</schemas>
-					<generateDirectory>src/main/java</generateDirectory>
-					<generatePackage>com.online.travel.schema</generatePackage>
 					<plugins>
 						<plugin>
 							<groupId>org.jvnet.jaxb2_commons</groupId>
@@ -253,12 +306,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
-                    <failOnViolation>true</failOnViolation>
+                    <failOnViolation>false</failOnViolation>
                     <printFailingErrors>true</printFailingErrors>
                     <targetJdk>14</targetJdk>
                     <rulesets>
                         <ruleset>${project.basedir}/config/pmd/ruleset.xml</ruleset>
                     </rulesets>
+					<excludeRoots>
+						<excludeRoot>src/main/com/online/travel/schema/</excludeRoot>
+					</excludeRoots>
                 </configuration>
                 <executions>
                     <execution>

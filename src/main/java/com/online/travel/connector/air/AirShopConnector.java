@@ -2,8 +2,8 @@ package com.online.travel.connector.air;
 
 
 import com.online.travel.connector.RestConnector;
-import com.online.travel.schema.IATAAirShoppingRQ;
-import com.online.travel.schema.IATAAirShoppingRS;
+import com.online.travel.schema.request.shop.IATAAirShoppingRQ;
+import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

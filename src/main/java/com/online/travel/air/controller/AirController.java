@@ -1,10 +1,12 @@
 package com.online.travel.air.controller;
 
 import com.online.travel.air.builder.AirShopRequestBuilder;
-import com.online.travel.air.service.AirService;
+import com.online.travel.air.service.AirOffersService;
+import com.online.travel.air.service.AirShopService;
 import com.online.travel.air.validator.AirShopValidator;
 import com.online.travel.model.request.MyAirShoppingRequest;
-import com.online.travel.schema.IATAAirShoppingRS;
+import com.online.travel.schema.response.offer.IATAOfferPriceRS;
+import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +35,10 @@ public class AirController {
     private AirShopValidator validator;
 
     @Autowired
-    private AirService airService;
+    private AirShopService airShopService;
+
+    @Autowired
+    private AirOffersService airOffersService;
 
     @GetMapping(value = "/listings/", produces = "application/json")
     @ApiOperation(value = "Do an air shopping", response = ResponseEntity.class)
@@ -43,7 +48,17 @@ public class AirController {
         logger.info("Inside the flight search");
         MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
         validator.validate(myAirShoppingRequest);
-        IATAAirShoppingRS iataAirShoppingRS = airService.doAirShopping(myAirShoppingRequest);
+        IATAAirShoppingRS iataAirShoppingRS = airShopService.doAirShopping(myAirShoppingRequest);
         return new ResponseEntity<>(iataAirShoppingRS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/offers/", produces = "application/json")
+    @ApiOperation(value = "Do an air reprice", response = ResponseEntity.class)
+    @ApiModelProperty(value = "params", reference = "Map")
+    public ResponseEntity<Object> flightOffers(@RequestParam final Map<String, String> params)
+            throws Exception {
+        logger.info("Inside the flight re-price");
+        IATAOfferPriceRS iataOfferPriceRS = airOffersService.doAirOffers(null);
+        return new ResponseEntity<>(iataOfferPriceRS, HttpStatus.OK);
     }
 }
