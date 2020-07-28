@@ -1,9 +1,8 @@
 package com.online.travel.connector.air;
 
-
 import com.online.travel.connector.RestConnector;
-import com.online.travel.schema.request.shop.IATAAirShoppingRQ;
-import com.online.travel.schema.response.shop.IATAAirShoppingRS;
+import com.online.travel.schema.request.offer.IATAOfferPriceRQ;
+import com.online.travel.schema.response.offer.IATAOfferPriceRS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,25 +18,25 @@ import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
 @Component
-public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
+public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
     private static final Logger logger = LoggerFactory.getLogger(AirShopConnector.class);
 
-    @Value("${air.shop.url}")
-    private String shopUrl;
+    @Value("${air.offer.url}")
+    private String offersUrl;
 
-    public IATAAirShoppingRS doShopping(final IATAAirShoppingRQ iataAirShoppingRQ) {
-        logRequest(iataAirShoppingRQ);
-        ResponseEntity<IATAAirShoppingRS> responseEntity = process(shopUrl,
+    public IATAOfferPriceRS doOffers(final IATAOfferPriceRQ iataOfferPriceRQ) {
+        logRequest(iataOfferPriceRQ);
+        ResponseEntity<IATAOfferPriceRS> responseEntity = process(offersUrl,
                 HttpMethod.POST,
-                mockEntity(iataAirShoppingRQ), IATAAirShoppingRS.class);
-        //logResponse(responseEntity.getBody());
+                mockEntity(iataOfferPriceRQ), IATAOfferPriceRS.class);
+        logResponse(responseEntity.getBody());
         return responseEntity.getBody();
     }
 
-    private void logResponse(final IATAAirShoppingRS body) {
+    private void logResponse(final IATAOfferPriceRS body) {
         logger.info("logging response ");
         try {
-            JAXBContext contextObj = JAXBContext.newInstance(IATAAirShoppingRS.class);
+            JAXBContext contextObj = JAXBContext.newInstance(IATAOfferPriceRS.class);
             Marshaller marshallerObj = contextObj.createMarshaller();
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             StringWriter sw = new StringWriter();
@@ -49,14 +48,14 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
         }
     }
 
-    private void logRequest(final IATAAirShoppingRQ iataAirShoppingRQ) {
+    private void logRequest(final IATAOfferPriceRQ iataOfferPriceRQ) {
         logger.info("logging request");
         try {
-            JAXBContext contextObj = JAXBContext.newInstance(IATAAirShoppingRQ.class);
+            JAXBContext contextObj = JAXBContext.newInstance(IATAOfferPriceRQ.class);
             Marshaller marshallerObj = contextObj.createMarshaller();
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             StringWriter sw = new StringWriter();
-            marshallerObj.marshal(iataAirShoppingRQ, sw);
+            marshallerObj.marshal(iataOfferPriceRQ, sw);
             String xmlContent = sw.toString();
             logger.info(xmlContent);
         } catch (JAXBException ex) {
@@ -64,8 +63,8 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
         }
     }
 
-    private HttpEntity<IATAAirShoppingRQ> mockEntity(final IATAAirShoppingRQ iataAirShoppingRQ) {
-        return new HttpEntity<>(iataAirShoppingRQ, getHeaders());
+    private HttpEntity<IATAOfferPriceRQ> mockEntity(final IATAOfferPriceRQ iataOfferPriceRQ) {
+        return new HttpEntity<>(iataOfferPriceRQ, getHeaders());
     }
 
     private HttpHeaders getHeaders() {
