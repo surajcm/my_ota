@@ -36,3 +36,6 @@ air:
   shop:
     url:
       http://iata.api.mashery.com/athena/ndc192api
+  offer:
+    url:
+      http://iata.api.mashery.com/athena/ndc192api
