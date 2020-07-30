@@ -1,9 +1,11 @@
 package com.online.travel.air.controller;
 
+import com.online.travel.air.builder.AirOffersRequestBuilder;
 import com.online.travel.air.builder.AirShopRequestBuilder;
 import com.online.travel.air.service.AirOffersService;
 import com.online.travel.air.service.AirShopService;
 import com.online.travel.air.validator.AirShopValidator;
+import com.online.travel.model.request.MyAirOffersRequest;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.schema.response.offer.IATAOfferPriceRS;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
@@ -32,6 +34,9 @@ public class AirController {
     private AirShopRequestBuilder airShopRequestBuilder;
 
     @Autowired
+    private AirOffersRequestBuilder airOffersRequestBuilder;
+
+    @Autowired
     private AirShopValidator validator;
 
     @Autowired
@@ -58,7 +63,8 @@ public class AirController {
     public ResponseEntity<Object> flightOffers(@RequestParam final Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight re-price");
-        IATAOfferPriceRS iataOfferPriceRS = airOffersService.doAirOffers(null);
+        MyAirOffersRequest myAirOffersRequest = airOffersRequestBuilder.buildAirOffersRequest(params);
+        IATAOfferPriceRS iataOfferPriceRS = airOffersService.doAirOffers(myAirOffersRequest);
         return new ResponseEntity<>(iataOfferPriceRS, HttpStatus.OK);
     }
 }

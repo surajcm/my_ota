@@ -1,4 +1,4 @@
-package com.online.travel.air.mapper;
+package com.online.travel.air.mapper.shop;
 
 import com.online.travel.model.referencedata.CabinTypeCode;
 import com.online.travel.model.referencedata.PassengerType;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class AirShopMapper {
+public class AirShopRequestMapper {
     public IATAAirShoppingRQ mapShopRequest(final MyAirShoppingRequest myAirShoppingRequest) {
         IATAAirShoppingRQ iataAirShoppingRQ = new IATAAirShoppingRQ();
         iataAirShoppingRQ.setMessageDoc(messageDoc());

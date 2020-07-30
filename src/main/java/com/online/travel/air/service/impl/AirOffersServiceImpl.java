@@ -1,7 +1,9 @@
-package com.online.travel.air.service;
+package com.online.travel.air.service.impl;
 
-import com.online.travel.air.builder.AirOffersRequestBuilder;
+import com.online.travel.air.mapper.offers.AirOffersMapper;
+import com.online.travel.air.service.AirOffersService;
 import com.online.travel.connector.air.AirOffersConnector;
+import com.online.travel.model.request.MyAirOffersRequest;
 import com.online.travel.schema.request.offer.IATAOfferPriceRQ;
 import com.online.travel.schema.response.offer.IATAOfferPriceRS;
 import org.slf4j.Logger;
@@ -14,17 +16,18 @@ public class AirOffersServiceImpl implements AirOffersService {
     private static final Logger logger = LoggerFactory.getLogger(AirOffersService.class);
 
     @Autowired
-    private AirOffersRequestBuilder airOffersRequestBuilder;
+    private AirOffersMapper airOffersMapper;
 
     @Autowired
     private AirOffersConnector airOffersConnector;
 
     @Override
-    public IATAOfferPriceRS doAirOffers(final Object obj) {
+    public IATAOfferPriceRS doAirOffers(final MyAirOffersRequest myAirOffersRequest) {
         logger.info("Going to hit iata");
-        IATAOfferPriceRQ iataOfferPriceRQ = airOffersRequestBuilder.mockIATAOfferPriceRQ();
+        IATAOfferPriceRQ iataOfferPriceRQ = airOffersMapper.buildIATAOfferPriceRQ(myAirOffersRequest);
         IATAOfferPriceRS iataOfferPriceRS = airOffersConnector.doOffers(iataOfferPriceRQ);
         logger.info("Done... showing results");
+        //todo: return MyOffersResponse
         return iataOfferPriceRS;
     }
 }
