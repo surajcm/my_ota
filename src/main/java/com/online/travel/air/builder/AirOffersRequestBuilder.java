@@ -8,7 +8,7 @@ import java.util.Map;
 @Component
 public class AirOffersRequestBuilder {
 
-    public MyAirOffersRequest buildAirOffersRequest(Map<String, String> params) {
+    public MyAirOffersRequest buildAirOffersRequest(final Map<String, String> params) {
         return new MyAirOffersRequest();
     }
 }

@@ -310,9 +310,6 @@
                     <rulesets>
                         <ruleset>${project.basedir}/config/pmd/ruleset.xml</ruleset>
                     </rulesets>
-                    <excludeRoots>
-                        <excludeRoot>src/main/com/online/travel/schema/</excludeRoot>
-                    </excludeRoots>
                 </configuration>
                 <executions>
                     <execution>

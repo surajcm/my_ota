@@ -29,7 +29,7 @@ import java.time.ZonedDateTime;
 @Component
 public class AirOffersMapper {
 
-    public IATAOfferPriceRQ buildIATAOfferPriceRQ(MyAirOffersRequest myAirOffersRequest) {
+    public IATAOfferPriceRQ buildIATAOfferPriceRQ(final MyAirOffersRequest myAirOffersRequest) {
         IATAOfferPriceRQ iataOfferPriceRQ = new IATAOfferPriceRQ();
         iataOfferPriceRQ.setMessageDoc(messageDoc());
         iataOfferPriceRQ.setParty(party());
@@ -38,7 +38,7 @@ public class AirOffersMapper {
         return iataOfferPriceRQ;
     }
 
-    private RequestType request(MyAirOffersRequest myAirOffersRequest) {
+    private RequestType request(final MyAirOffersRequest myAirOffersRequest) {
         RequestType requestType = new RequestType();
         requestType.setDataLists(dataLists());
         requestType.setPricedOffer(pricedOffer());

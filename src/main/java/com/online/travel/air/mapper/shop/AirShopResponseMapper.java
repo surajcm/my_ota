@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AirShopResponseMapper {
 
-    public MyAirShoppingResponse mapShopResponse(IATAAirShoppingRS response) {
+    public MyAirShoppingResponse mapShopResponse(final IATAAirShoppingRS response) {
         MyAirShoppingResponse airShoppingResponse = new MyAirShoppingResponse();
         //response.ge
         return airShoppingResponse;

@@ -26,7 +26,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     private String shopUrl;
 
     @Value("${AUTH_KEY}")
-    private String auth_key;
+    private String authKey;
 
     public IATAAirShoppingRS doShopping(final IATAAirShoppingRQ iataAirShoppingRQ) {
         logRequest(iataAirShoppingRQ);
@@ -74,7 +74,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     private HttpHeaders getHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Type", "application/xml");
-        httpHeaders.add("Authorization-Key", auth_key);
+        httpHeaders.add("Authorization-Key", authKey);
         return httpHeaders;
     }
 }

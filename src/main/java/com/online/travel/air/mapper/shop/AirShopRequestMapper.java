@@ -96,20 +96,27 @@ public class AirShopRequestMapper {
 
     private OriginDestCriteriaType originDestCriteria(final Slice slice) {
         OriginDestCriteriaType originDestCriteria = new OriginDestCriteriaType();
-        DestArrivalCriteriaType destArrivalCriteriaType = new DestArrivalCriteriaType();
-        destArrivalCriteriaType.setIATALocationCode(slice.getOrigin());
-        originDestCriteria.setDestArrivalCriteria(destArrivalCriteriaType);
-
-        OriginDepCriteriaType originDepCriteria = new OriginDepCriteriaType();
-        originDepCriteria.setIATALocationCode(slice.getDestination());
-        originDepCriteria.setDate(slice.getDepartureDate());
-        originDestCriteria.setOriginDepCriteria(originDepCriteria);
+        originDestCriteria.setDestArrivalCriteria(getDestArrivalCriteriaType(slice));
+        originDestCriteria.setOriginDepCriteria(getOriginDepCriteriaType(slice));
         if (slice.getCabinTypeCode() != null) {
             CabinTypeType cabinTypeType = new CabinTypeType();
             cabinTypeType.setCabinTypeCode(slice.getCabinTypeCode().name());
             originDestCriteria.getPreferredCabinType().add(cabinTypeType);
         }
         return originDestCriteria;
+    }
+
+    private OriginDepCriteriaType getOriginDepCriteriaType(final Slice slice) {
+        OriginDepCriteriaType originDepCriteria = new OriginDepCriteriaType();
+        originDepCriteria.setIATALocationCode(slice.getDestination());
+        originDepCriteria.setDate(slice.getDepartureDate());
+        return originDepCriteria;
+    }
+
+    private DestArrivalCriteriaType getDestArrivalCriteriaType(final Slice slice) {
+        DestArrivalCriteriaType destArrivalCriteriaType = new DestArrivalCriteriaType();
+        destArrivalCriteriaType.setIATALocationCode(slice.getOrigin());
+        return destArrivalCriteriaType;
     }
 
 

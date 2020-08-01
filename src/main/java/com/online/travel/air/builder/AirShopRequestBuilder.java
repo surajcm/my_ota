@@ -35,29 +35,6 @@ public class AirShopRequestBuilder {
         return cabinTypeCode;
     }
 
-    private Map<String, String> buildMockParams() {
-        Map<String, String> mockParams = new HashMap<>();
-        /*
-        ?slice1.origin=LHR
-        &slice1.destination=BCN
-        &slice1.departureDate=2020-08-23
-        &slice2.origin=BCN
-        &slice2.destination=LHR
-        &slice2.departureDate=2020-08-25
-        &slice2.cabinClass=economy
-        */
-
-        mockParams.put("slice1.origin", "LHR");
-        mockParams.put("slice1.destination", "BCN");
-        mockParams.put("slice1.departureDate", "2020-08-23");
-        mockParams.put("slice2.origin", "BCN");
-
-        mockParams.put("slice2.destination", "LHR");
-        mockParams.put("slice2.departureDate", "2020-08-25");
-        mockParams.put("slice2.cabinClass", "economy");
-        return mockParams;
-    }
-
     private List<Slice> getSlices(final Map<String, String> params) {
         Map<String, Slice> slices = new HashMap<>();
         Map<String, String> sliceMap = getSliceOnlyMap(params);

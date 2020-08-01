@@ -25,7 +25,7 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
     private String offersUrl;
 
     @Value("${AUTH_KEY}")
-    private String auth_key;
+    private String authKey;
 
     public IATAOfferPriceRS doOffers(final IATAOfferPriceRQ iataOfferPriceRQ) {
         logRequest(iataOfferPriceRQ);
@@ -73,7 +73,7 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
     private HttpHeaders getHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Type", "application/xml");
-        httpHeaders.add("Authorization-Key", auth_key);
+        httpHeaders.add("Authorization-Key", authKey);
         return httpHeaders;
     }
 }
