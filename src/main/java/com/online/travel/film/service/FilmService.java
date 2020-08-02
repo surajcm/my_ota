@@ -1,7 +1,9 @@
 package com.online.travel.film.service;
 
+import com.online.travel.model.response.Film;
+
 public interface FilmService {
     String getAllFilms();
 
-    String getFilmById(String id);
+    Film getFilmById(String id);
 }

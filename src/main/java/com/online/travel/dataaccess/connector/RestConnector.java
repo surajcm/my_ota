@@ -1,4 +1,4 @@
-package com.online.travel.connector;
+package com.online.travel.dataaccess.connector;
 
 import com.online.travel.exception.MyOtaException;
 import com.online.travel.schema.error.ErrorsType;

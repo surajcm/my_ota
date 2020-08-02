@@ -1,31 +1,27 @@
 package com.online.travel.film.service;
 
+import com.online.travel.film.connector.FilmConnector;
+import com.online.travel.film.connector.FilmsConnector;
+import com.online.travel.model.response.Film;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class FilmServiceImpl implements FilmService {
 
-    final String uri = "https://swapi.dev/api/films/";
+    @Autowired
+    private FilmConnector filmConnector;
+
+    @Autowired
+    private FilmsConnector filmsConnector;
 
     @Override
     public String getAllFilms() {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(uri, String.class);
+        return filmsConnector.getAllFilmsData();
     }
 
     @Override
-    public String getFilmById(final String id) {
-        String uriById = uri + id + "/";
-        RestTemplate restTemplate = new RestTemplate();
-        String result = "";
-        try {
-            result = restTemplate.getForObject(uriById, String.class);
-        } catch (RestClientException ex) {
-            ex.printStackTrace();
-            result = ex.getLocalizedMessage();
-        }
-        return result;
+    public Film getFilmById(final String id) {
+        return filmConnector.getFilmById(id);
     }
 }

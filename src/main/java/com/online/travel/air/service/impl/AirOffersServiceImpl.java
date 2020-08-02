@@ -2,7 +2,7 @@ package com.online.travel.air.service.impl;
 
 import com.online.travel.air.mapper.offers.AirOffersMapper;
 import com.online.travel.air.service.AirOffersService;
-import com.online.travel.connector.air.AirOffersConnector;
+import com.online.travel.air.connector.air.AirOffersConnector;
 import com.online.travel.model.request.MyAirOffersRequest;
 import com.online.travel.schema.request.offer.IATAOfferPriceRQ;
 import com.online.travel.schema.response.offer.IATAOfferPriceRS;

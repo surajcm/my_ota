@@ -4,7 +4,7 @@ package com.online.travel.air.service.impl;
 import com.online.travel.air.mapper.shop.AirShopRequestMapper;
 import com.online.travel.air.mapper.shop.AirShopResponseMapper;
 import com.online.travel.air.service.AirShopService;
-import com.online.travel.connector.air.AirShopConnector;
+import com.online.travel.air.connector.air.AirShopConnector;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.model.response.MyAirShoppingResponse;
 import com.online.travel.schema.request.shop.IATAAirShoppingRQ;

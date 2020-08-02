@@ -1,7 +1,7 @@
-package com.online.travel.connector.air;
+package com.online.travel.air.connector.air;
 
 
-import com.online.travel.connector.RestConnector;
+import com.online.travel.dataaccess.connector.RestConnector;
 import com.online.travel.schema.request.shop.IATAAirShoppingRQ;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import org.slf4j.Logger;

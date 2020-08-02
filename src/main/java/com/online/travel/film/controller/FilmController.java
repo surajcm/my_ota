@@ -1,6 +1,7 @@
 package com.online.travel.film.controller;
 
 import com.online.travel.film.service.FilmService;
+import com.online.travel.model.response.Film;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,7 @@ public class FilmController {
      */
     @GetMapping("/film")
     @ResponseBody
-    public String getFilmById(@RequestParam final String id) {
+    public Film getFilmById(@RequestParam final String id) {
         return filmService.getFilmById(id);
     }
 }
