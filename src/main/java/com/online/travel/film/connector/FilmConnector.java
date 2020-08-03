@@ -13,8 +13,8 @@ public class FilmConnector extends RestConnector<Film> {
 
     final String uri = "https://swapi.dev/api/films/";
 
-    public Film getFilmById(String id) {
-        ResponseEntity<Film> responseEntity = process(uri+ id + "/",
+    public Film getFilmById(final String id) {
+        ResponseEntity<Film> responseEntity = process(uri + id + "/",
                 HttpMethod.GET,
                 entity(), Film.class);
         return responseEntity.getBody();

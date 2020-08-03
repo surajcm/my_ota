@@ -67,7 +67,7 @@ public class Film {
     }
 
     @JsonProperty("title")
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -77,7 +77,7 @@ public class Film {
     }
 
     @JsonProperty("episode_id")
-    public void setEpisodeId(int episodeId) {
+    public void setEpisodeId(final int episodeId) {
         this.episodeId = episodeId;
     }
 
@@ -87,7 +87,7 @@ public class Film {
     }
 
     @JsonProperty("opening_crawl")
-    public void setOpeningCrawl(String openingCrawl) {
+    public void setOpeningCrawl(final String openingCrawl) {
         this.openingCrawl = openingCrawl;
     }
 
@@ -97,7 +97,7 @@ public class Film {
     }
 
     @JsonProperty("director")
-    public void setDirector(String director) {
+    public void setDirector(final String director) {
         this.director = director;
     }
 
@@ -107,7 +107,7 @@ public class Film {
     }
 
     @JsonProperty("producer")
-    public void setProducer(String producer) {
+    public void setProducer(final String producer) {
         this.producer = producer;
     }
 
@@ -117,7 +117,7 @@ public class Film {
     }
 
     @JsonProperty("release_date")
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(final String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -127,7 +127,7 @@ public class Film {
     }
 
     @JsonProperty("characters")
-    public void setCharacters(List<String> characters) {
+    public void setCharacters(final List<String> characters) {
         this.characters = characters;
     }
 
@@ -137,7 +137,7 @@ public class Film {
     }
 
     @JsonProperty("planets")
-    public void setPlanets(List<String> planets) {
+    public void setPlanets(final List<String> planets) {
         this.planets = planets;
     }
 
@@ -147,7 +147,7 @@ public class Film {
     }
 
     @JsonProperty("starships")
-    public void setStarships(List<String> starships) {
+    public void setStarships(final List<String> starships) {
         this.starships = starships;
     }
 
@@ -157,7 +157,7 @@ public class Film {
     }
 
     @JsonProperty("vehicles")
-    public void setVehicles(List<String> vehicles) {
+    public void setVehicles(final List<String> vehicles) {
         this.vehicles = vehicles;
     }
 
@@ -167,7 +167,7 @@ public class Film {
     }
 
     @JsonProperty("species")
-    public void setSpecies(List<String> species) {
+    public void setSpecies(final List<String> species) {
         this.species = species;
     }
 
@@ -177,7 +177,7 @@ public class Film {
     }
 
     @JsonProperty("created")
-    public void setCreated(String created) {
+    public void setCreated(final String created) {
         this.created = created;
     }
 
@@ -187,7 +187,7 @@ public class Film {
     }
 
     @JsonProperty("edited")
-    public void setEdited(String edited) {
+    public void setEdited(final String edited) {
         this.edited = edited;
     }
 
@@ -197,7 +197,7 @@ public class Film {
     }
 
     @JsonProperty("url")
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -207,7 +207,7 @@ public class Film {
     }
 
     @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
+    public void setAdditionalProperty(final String name, final Object value) {
         this.additionalProperties.put(name, value);
     }
 

@@ -13,7 +13,7 @@ public class Films {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(final int count) {
         this.count = count;
     }
 
@@ -21,7 +21,7 @@ public class Films {
         return next;
     }
 
-    public void setNext(Film next) {
+    public void setNext(final Film next) {
         this.next = next;
     }
 
@@ -29,7 +29,7 @@ public class Films {
         return previous;
     }
 
-    public void setPrevious(Film previous) {
+    public void setPrevious(final Film previous) {
         this.previous = previous;
     }
 
@@ -37,7 +37,7 @@ public class Films {
         return results;
     }
 
-    public void setResults(List<Film> results) {
+    public void setResults(final List<Film> results) {
         this.results = results;
     }
 }
