@@ -20,4 +20,9 @@ M2_HOME, JAVA_HOME etc
 ##### To Run the application :
 `./mvnw spring-boot:run`
 
+##### If you have a ~/.m2/settings.xml that points to your organisations maven repo
+`./mvnw -s settings.xml spring-boot:run`
+
+
+
 
