@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "734386f7-1096-42fe-b0d2-1ca4f7f5fca4",
+		"name": "my_ota",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AirShoppingRQ Roundtrip - 1ADT 1CHD Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml"
+					},
+					{
+						"key": "Authorization-Key",
+						"value": "{{API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<IATA_AirShoppingRQ xmlns=\"http://www.iata.org/IATA/2015/00/2019.2/IATA_AirShoppingRQ\">\n    <MessageDoc>\n        <RefVersionNumber>1.0</RefVersionNumber>\n    </MessageDoc>\n    <Party>\n        <Participant>\n            <Aggregator>\n                <AggregatorID>88888888</AggregatorID>\n                <Name>JR TECHNOLOGIES</Name>\n            </Aggregator>\n        </Participant>\n        <Sender>\n            <TravelAgency>\n                <AgencyID>{{AGENCY_ID}}</AgencyID>\n                <IATA_Number>12312312</IATA_Number>\n                <Name>Gods Travel</Name>\n            </TravelAgency>\n        </Sender>\n    </Party>\n    <PayloadAttributes>\n        <EchoTokenText>{{$guid}}</EchoTokenText>\n        <Timestamp>2001-12-17T09:30:47+05:00</Timestamp>\n        <TrxID>transaction{{$randomInt}}</TrxID>\n        <VersionNumber>2019.2</VersionNumber>\n    </PayloadAttributes>\n    <POS>\n        <City>\n            <IATA_LocationCode>ATH</IATA_LocationCode>\n        </City>\n        <Country>\n            <CountryCode>GR</CountryCode>\n        </Country>\n        <RequestTime>2020-10-12T07:38:00</RequestTime>\n    </POS>\n    <Request>\n        <FlightCriteria>\n            <OriginDestCriteria>\n                <DestArrivalCriteria>\n                    <IATA_LocationCode>LHR</IATA_LocationCode>\n                </DestArrivalCriteria>\n                <OriginDepCriteria>\n                    <Date>2020-09-20</Date>\n                    <IATA_LocationCode>BCN</IATA_LocationCode>\n                </OriginDepCriteria>\n            </OriginDestCriteria>\n            <OriginDestCriteria>\n                <DestArrivalCriteria>\n                    <IATA_LocationCode>BCN</IATA_LocationCode>\n                </DestArrivalCriteria>\n                <OriginDepCriteria>\n                    <Date>2020-09-27</Date>\n                    <IATA_LocationCode>LHR</IATA_LocationCode>\n                </OriginDepCriteria>\n                <PreferredCabinType>\n                    <CabinTypeCode>M</CabinTypeCode>\n                </PreferredCabinType>\n            </OriginDestCriteria>\n        </FlightCriteria>\n        <Paxs>\n            <Pax>\n                <PaxID>Pax1</PaxID>\n                <PTC>ADT</PTC>\n            </Pax>\n            <Pax>\n                <PaxID>Pax2</PaxID>\n                <PTC>CHD</PTC>\n            </Pax>\n        </Paxs>\n        <ShoppingCriteria>\n            <CabinTypeCriteria>\n                <CabinTypeCode>M</CabinTypeCode>\n            </CabinTypeCriteria>\n        </ShoppingCriteria>\n    </Request>\n</IATA_AirShoppingRQ>",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{NDC_ENDPOINT}}",
+					"host": [
+						"{{NDC_ENDPOINT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my_ota_air_shop",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/air/listings/?slice1.origin=LHR&slice1.destination=BCN&slice1.departureDate=2020-08-23&slice2.origin=BCN&slice2.destination=LHR&slice2.departureDate=2020-08-25&slice2.cabinClass=economy&adult=1&child=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"air",
+						"listings",
+						""
+					],
+					"query": [
+						{
+							"key": "slice1.origin",
+							"value": "LHR"
+						},
+						{
+							"key": "slice1.destination",
+							"value": "BCN"
+						},
+						{
+							"key": "slice1.departureDate",
+							"value": "2020-08-23"
+						},
+						{
+							"key": "slice2.origin",
+							"value": "BCN"
+						},
+						{
+							"key": "slice2.destination",
+							"value": "LHR"
+						},
+						{
+							"key": "slice2.departureDate",
+							"value": "2020-08-25"
+						},
+						{
+							"key": "slice2.cabinClass",
+							"value": "economy"
+						},
+						{
+							"key": "adult",
+							"value": "1"
+						},
+						{
+							"key": "child",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my_ota_air_offers",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/air/offers/?slice1.origin=LHR&slice1.destination=BCN&slice1.departureDate=2020-08-23&slice2.origin=BCN&slice2.destination=LHR&slice2.departureDate=2020-08-25&slice2.cabinClass=economy&adult=1&child=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"air",
+						"offers",
+						""
+					],
+					"query": [
+						{
+							"key": "slice1.origin",
+							"value": "LHR"
+						},
+						{
+							"key": "slice1.destination",
+							"value": "BCN"
+						},
+						{
+							"key": "slice1.departureDate",
+							"value": "2020-08-23"
+						},
+						{
+							"key": "slice2.origin",
+							"value": "BCN"
+						},
+						{
+							"key": "slice2.destination",
+							"value": "LHR"
+						},
+						{
+							"key": "slice2.departureDate",
+							"value": "2020-08-25"
+						},
+						{
+							"key": "slice2.cabinClass",
+							"value": "economy"
+						},
+						{
+							"key": "adult",
+							"value": "1"
+						},
+						{
+							"key": "child",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my_ota_all_films",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/allfilms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"allfilms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my_ota_single_film",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/film?id=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"film"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my_ota_graphql_air_shop",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    hello(who: \"John\")\n }",
+						"variables": ""
+					},
+					"options": {
+						"graphql": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

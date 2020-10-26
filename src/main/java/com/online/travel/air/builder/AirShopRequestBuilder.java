@@ -16,9 +16,10 @@ import java.util.stream.Collectors;
 @Component
 public class AirShopRequestBuilder {
 
+    private static final String CABIN_CLASS = "cabinClass";
+
     public MyAirShoppingRequest buildAirShoppingRequest(final Map<String, String> params) {
         MyAirShoppingRequest myAirShoppingRequest = new MyAirShoppingRequest();
-        //Map<String, String> params2 = buildMockParams();
         myAirShoppingRequest.setSlices(getSlices(params));
         myAirShoppingRequest.setPassenger(getPassengers(params));
         myAirShoppingRequest.setCabinTypeCode(getCabinType(params));
@@ -28,8 +29,8 @@ public class AirShopRequestBuilder {
     private CabinTypeCode getCabinType(final Map<String, String> params) {
         // &cabinClass=economy
         CabinTypeCode cabinTypeCode = null;
-        if (params.containsKey("cabinClass")) {
-            String val = params.get("cabinClass");
+        if (params.containsKey(CABIN_CLASS)) {
+            String val = params.get(CABIN_CLASS);
             cabinTypeCode = CabinTypeCode.fromDescription(val).orElse(null);
         }
         return cabinTypeCode;
@@ -56,7 +57,7 @@ public class AirShopRequestBuilder {
                 //todo : handle date parse error
                 slice.setDepartureDate(LocalDate.parse(entry.getValue()));
             }
-            if (entry.getKey().contains("cabinClass")) {
+            if (entry.getKey().contains(CABIN_CLASS)) {
                 slice.setCabinTypeCode(CabinTypeCode.fromDescription(entry.getValue()).get());
             }
             slices.put(currentKey, slice);

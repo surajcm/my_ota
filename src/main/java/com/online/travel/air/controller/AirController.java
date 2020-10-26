@@ -53,6 +53,7 @@ public class AirController {
         logger.info("Inside the flight search");
         MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
         validator.validate(myAirShoppingRequest);
+        //todo: use MyAirShopResponse at controller layer
         IATAAirShoppingRS iataAirShoppingRS = airShopService.doAirShopping(myAirShoppingRequest);
         return new ResponseEntity<>(iataAirShoppingRS, HttpStatus.OK);
     }
@@ -64,6 +65,7 @@ public class AirController {
             throws Exception {
         logger.info("Inside the flight re-price");
         MyAirOffersRequest myAirOffersRequest = airOffersRequestBuilder.buildAirOffersRequest(params);
+        //todo: Use MyAirOffersResponse at controller layer
         IATAOfferPriceRS iataOfferPriceRS = airOffersService.doAirOffers(myAirOffersRequest);
         return new ResponseEntity<>(iataOfferPriceRS, HttpStatus.OK);
     }
