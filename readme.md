@@ -23,6 +23,8 @@ M2_HOME, JAVA_HOME etc
 ##### If you have a ~/.m2/settings.xml that points to your organisations maven repo
 `./mvnw -s settings.xml spring-boot:run`
 
+#### Swagger UI
+Please check at http://localhost:8090/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 
 
 

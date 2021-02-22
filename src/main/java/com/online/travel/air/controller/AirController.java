@@ -9,9 +9,7 @@ import com.online.travel.model.request.MyAirOffersRequest;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.schema.response.offer.IATAOfferPriceRS;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/air")
-@Api(value = "AIR APIs", description = "APIs for making AIR shop, reprice, reservation, itinerary view, cancellation")
 public class AirController {
     private static final Logger logger = LoggerFactory.getLogger(AirController.class);
 
@@ -46,8 +43,6 @@ public class AirController {
     private AirOffersService airOffersService;
 
     @GetMapping(value = "/listings/", produces = "application/json")
-    @ApiOperation(value = "Do an air shopping", response = ResponseEntity.class)
-    @ApiModelProperty(value = "params", reference = "Map")
     public ResponseEntity<Object> flightSearch(@RequestParam final Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight search");
@@ -59,8 +54,6 @@ public class AirController {
     }
 
     @GetMapping(value = "/offers/", produces = "application/json")
-    @ApiOperation(value = "Do an air reprice", response = ResponseEntity.class)
-    @ApiModelProperty(value = "params", reference = "Map")
     public ResponseEntity<Object> flightOffers(@RequestParam final Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight re-price");
