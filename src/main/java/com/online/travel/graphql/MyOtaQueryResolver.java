@@ -1,4 +1,4 @@
-package com.online.travel.film.service;
+package com.online.travel.graphql;
 
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import org.springframework.stereotype.Service;
