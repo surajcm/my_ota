@@ -27,5 +27,6 @@ M2_HOME, JAVA_HOME etc
 #### Swagger UI
 Please check at http://localhost:8090/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 
+for request response samples, please head out to [dev readme](https://github.com/surajcm/my_ota/tree/master/dev)
 
 

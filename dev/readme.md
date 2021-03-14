@@ -1,6 +1,6 @@
 ### Air Listing request sample
 #### Swagger UI
-![screenshot](https://github.com/surajcm/my_ota/blob/main/dev/AirListingSwagger.png?raw=true)
+![screenshot](https://github.com/surajcm/my_ota/blob/master/dev/AirListingSwagger.png?raw=true)
 
 #### Request
 ```json
