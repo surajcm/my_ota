@@ -16,7 +16,7 @@
   "child":"2"
 }
 ```
-#### Response
+#### IATA Response in json format
 
 <details>
   <summary>
@@ -25,7 +25,7 @@
     <a href="https://github.com/surajcm/my_ota/blob/main/dev/air_listing_response.json">air_listing_response.json</a>
 </details>
 
-### Original XML response
+#### IATA Response in XML format
 <details>
   <summary>
     Air Listings Response

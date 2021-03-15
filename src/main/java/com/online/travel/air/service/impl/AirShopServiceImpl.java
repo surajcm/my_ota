@@ -1,10 +1,12 @@
 package com.online.travel.air.service.impl;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.online.travel.air.connector.air.AirShopConnector;
 import com.online.travel.air.mapper.shop.AirShopRequestMapper;
 import com.online.travel.air.mapper.shop.AirShopResponseMapper;
 import com.online.travel.air.service.AirShopService;
-import com.online.travel.air.connector.air.AirShopConnector;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.model.response.MyAirShoppingResponse;
 import com.online.travel.schema.request.shop.IATAAirShoppingRQ;
@@ -33,9 +35,22 @@ public class AirShopServiceImpl implements AirShopService {
         IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
         IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);
         logger.info("Done... showing results");
+        logger.info(responseAsStringForLogging(response));
         MyAirShoppingResponse airShoppingResponse = airShopResponseMapper.mapShopResponse(response);
         logger.info(airShoppingResponse.toString());
         //todo: Return MyAirShoppingResponse
         return response;
     }
+
+    private String responseAsStringForLogging(IATAAirShoppingRS response) {
+        ObjectMapper mapper = new ObjectMapper();
+        String responseAsString = "";
+        try {
+            responseAsString = mapper.writeValueAsString(response);
+        } catch (JsonProcessingException e) {
+            responseAsString = "parseError";
+        }
+        return responseAsString;
+    }
+
 }
