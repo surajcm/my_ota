@@ -30,7 +30,7 @@ public class AirShopServiceImpl implements AirShopService {
     private AirShopResponseMapper airShopResponseMapper;
 
     @Override
-    public IATAAirShoppingRS doAirShopping(final MyAirShoppingRequest myAirShoppingRequest) {
+    public MyAirShoppingResponse doAirShopping(final MyAirShoppingRequest myAirShoppingRequest) {
         logger.info("Going to hit iata");
         IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
         IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);
@@ -38,8 +38,7 @@ public class AirShopServiceImpl implements AirShopService {
         logger.info(responseAsStringForLogging(response));
         MyAirShoppingResponse airShoppingResponse = airShopResponseMapper.mapShopResponse(response);
         logger.info(airShoppingResponse.toString());
-        //todo: Return MyAirShoppingResponse
-        return response;
+        return airShoppingResponse;
     }
 
     private String responseAsStringForLogging(IATAAirShoppingRS response) {

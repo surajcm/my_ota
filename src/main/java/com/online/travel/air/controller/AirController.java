@@ -7,9 +7,8 @@ import com.online.travel.air.service.AirShopService;
 import com.online.travel.air.validator.AirShopValidator;
 import com.online.travel.model.request.MyAirOffersRequest;
 import com.online.travel.model.request.MyAirShoppingRequest;
+import com.online.travel.model.response.MyAirShoppingResponse;
 import com.online.travel.schema.response.offer.IATAOfferPriceRS;
-import com.online.travel.schema.response.shop.IATAAirShoppingRS;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +47,8 @@ public class AirController {
         logger.info("Inside the flight search");
         MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
         validator.validate(myAirShoppingRequest);
-        //todo: use MyAirShopResponse at controller layer
-        IATAAirShoppingRS iataAirShoppingRS = airShopService.doAirShopping(myAirShoppingRequest);
-        return new ResponseEntity<>(iataAirShoppingRS, HttpStatus.OK);
+        MyAirShoppingResponse airShoppingResponse = airShopService.doAirShopping(myAirShoppingRequest);
+        return new ResponseEntity<>(airShoppingResponse, HttpStatus.OK);
     }
 
     @GetMapping(value = "/offers/", produces = "application/json")
