@@ -41,12 +41,12 @@ public class AirShopServiceImpl implements AirShopService {
         return airShoppingResponse;
     }
 
-    private String responseAsStringForLogging(IATAAirShoppingRS response) {
+    private String responseAsStringForLogging(final IATAAirShoppingRS response) {
         ObjectMapper mapper = new ObjectMapper();
         String responseAsString = "";
         try {
             responseAsString = mapper.writeValueAsString(response);
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException exception) {
             responseAsString = "parseError";
         }
         return responseAsString;

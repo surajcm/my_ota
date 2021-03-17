@@ -7,7 +7,7 @@ public class Segments {
         return segmentID;
     }
 
-    public void setSegmentID(String segmentID) {
+    public void setSegmentID(final String segmentID) {
         this.segmentID = segmentID;
     }
 

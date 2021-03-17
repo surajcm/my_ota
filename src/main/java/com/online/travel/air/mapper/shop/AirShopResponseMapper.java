@@ -23,7 +23,7 @@ public class AirShopResponseMapper {
         return airShoppingResponse;
     }
 
-    private List<Offers> populateOffers(List<CarrierOffersType> carrierOffers) {
+    private List<Offers> populateOffers(final List<CarrierOffersType> carrierOffers) {
         List<Offers> offers = new ArrayList<>();
         for (CarrierOffersType carrierOffersType :carrierOffers) {
             List<OfferType> offerTypes = carrierOffersType.getOffer();

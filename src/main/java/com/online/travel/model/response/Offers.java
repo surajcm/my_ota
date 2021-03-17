@@ -7,7 +7,7 @@ public class Offers {
         return offerID;
     }
 
-    public void setOfferID(String offerID) {
+    public void setOfferID(final String offerID) {
         this.offerID = offerID;
     }
 

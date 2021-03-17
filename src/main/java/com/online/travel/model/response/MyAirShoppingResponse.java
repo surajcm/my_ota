@@ -20,7 +20,7 @@ public class MyAirShoppingResponse {
         return transactionId;
     }
 
-    public void setTransactionId(String transactionId) {
+    public void setTransactionId(final String transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -28,7 +28,7 @@ public class MyAirShoppingResponse {
         return segments;
     }
 
-    public void setSegments(List<Segments> segments) {
+    public void setSegments(final List<Segments> segments) {
         this.segments = segments;
     }
 
@@ -36,7 +36,7 @@ public class MyAirShoppingResponse {
         return offers;
     }
 
-    public void setOffers(List<Offers> offers) {
+    public void setOffers(final List<Offers> offers) {
         this.offers = offers;
     }
 
