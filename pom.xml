@@ -319,12 +319,19 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>cpd-report</id>
                         <phase>test-compile</phase>
                         <goals>
-                            <goal>check</goal>
                             <goal>cpd-check</goal>
                         </goals>
+                        <configuration>
+                            <excludeFromFailureFile>${project.basedir}/config/pmd/exclude-cpd.properties</excludeFromFailureFile>
+                        </configuration>
                     </execution>
                 </executions>
                 <dependencies>

@@ -2,9 +2,11 @@ package com.online.travel.air.mapper.shop;
 
 import com.online.travel.model.response.MyAirShoppingResponse;
 import com.online.travel.model.response.Offers;
+import com.online.travel.model.response.Segments;
 import com.online.travel.schema.response.shop.CarrierOffersType;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import com.online.travel.schema.response.shop.OfferType;
+import com.online.travel.schema.response.shop.PaxSegmentType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,18 +18,32 @@ public class AirShopResponseMapper {
     public MyAirShoppingResponse mapShopResponse(final IATAAirShoppingRS response) {
         MyAirShoppingResponse airShoppingResponse = new MyAirShoppingResponse();
         airShoppingResponse.setTransactionId(response.getPayloadAttributes().getTrxID());
-        if (! response.getResponse().getOffersGroup().getCarrierOffers().isEmpty()) {
+        if (!response.getResponse().getOffersGroup().getCarrierOffers().isEmpty()) {
             airShoppingResponse.setOffers(
                     populateOffers(response.getResponse().getOffersGroup().getCarrierOffers()));
+        }
+        if (!response.getResponse().getDataLists().getPaxSegmentList().getPaxSegment().isEmpty()) {
+            airShoppingResponse.setSegments(populateSegments(
+                    response.getResponse().getDataLists().getPaxSegmentList().getPaxSegment()));
         }
         return airShoppingResponse;
     }
 
+    private List<Segments> populateSegments(final List<PaxSegmentType> paxSegment) {
+        List<Segments> segments = new ArrayList<>();
+        for (PaxSegmentType paxSegmentType : paxSegment) {
+            Segments newSegment = new Segments();
+            newSegment.setSegmentID(paxSegmentType.getPaxSegmentID());
+            segments.add(newSegment);
+        }
+        return segments;
+    }
+
     private List<Offers> populateOffers(final List<CarrierOffersType> carrierOffers) {
         List<Offers> offers = new ArrayList<>();
-        for (CarrierOffersType carrierOffersType :carrierOffers) {
+        for (CarrierOffersType carrierOffersType : carrierOffers) {
             List<OfferType> offerTypes = carrierOffersType.getOffer();
-            for (OfferType offerType: offerTypes) {
+            for (OfferType offerType : offerTypes) {
                 Offers offer = new Offers();
                 offer.setOfferID(offerType.getOfferID());
                 offers.add(offer);
