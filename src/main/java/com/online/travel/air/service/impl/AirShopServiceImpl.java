@@ -31,19 +31,19 @@ public class AirShopServiceImpl implements AirShopService {
 
     @Override
     public MyAirShoppingResponse doAirShopping(final MyAirShoppingRequest myAirShoppingRequest) {
-        logger.info("Going to hit iata");
+        logger.info("Going to hit IATA endpoint");
         IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
         IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);
-        logger.info("Done... showing results");
-        logger.info(responseAsStringForLogging(response));
+        logger.debug(responseAsStringForLogging(response));
         MyAirShoppingResponse airShoppingResponse = airShopResponseMapper.mapShopResponse(response);
         logger.info(airShoppingResponse.toString());
+        logger.info("Done... showing results");
         return airShoppingResponse;
     }
 
     private String responseAsStringForLogging(final IATAAirShoppingRS response) {
         ObjectMapper mapper = new ObjectMapper();
-        String responseAsString = "";
+        String responseAsString;
         try {
             responseAsString = mapper.writeValueAsString(response);
         } catch (JsonProcessingException exception) {

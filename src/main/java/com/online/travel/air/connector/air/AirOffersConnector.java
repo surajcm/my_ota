@@ -47,7 +47,7 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
             String xmlContent = sw.toString();
             logger.info(xmlContent);
         } catch (JAXBException ex) {
-            ex.printStackTrace();
+            logger.info("Error occurred :" + ex.getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
             String xmlContent = sw.toString();
             logger.info(xmlContent);
         } catch (JAXBException ex) {
-            ex.printStackTrace();
+            logger.info("Error occurred :" + ex.getMessage());
         }
     }
 

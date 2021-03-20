@@ -7,6 +7,9 @@ import com.online.travel.schema.response.shop.CarrierOffersType;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import com.online.travel.schema.response.shop.OfferType;
 import com.online.travel.schema.response.shop.PaxSegmentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +17,10 @@ import java.util.List;
 
 @Component
 public class AirShopResponseMapper {
+    private static final Logger logger = LoggerFactory.getLogger(AirShopResponseMapper.class);
+
+    @Value("${air.shop.maxOffers}")
+    private int maxOffers;
 
     public MyAirShoppingResponse mapShopResponse(final IATAAirShoppingRS response) {
         MyAirShoppingResponse airShoppingResponse = new MyAirShoppingResponse();
@@ -26,6 +33,7 @@ public class AirShopResponseMapper {
             airShoppingResponse.setSegments(populateSegments(
                     response.getResponse().getDataLists().getPaxSegmentList().getPaxSegment()));
         }
+        airShoppingResponse.setTotalResultsCount(airShoppingResponse.getOffers().size());
         return airShoppingResponse;
     }
 
@@ -40,15 +48,24 @@ public class AirShopResponseMapper {
     }
 
     private List<Offers> populateOffers(final List<CarrierOffersType> carrierOffers) {
+        logger.info("max offer count is :" + maxOffers);
         List<Offers> offers = new ArrayList<>();
+        int count = 0;
         for (CarrierOffersType carrierOffersType : carrierOffers) {
             List<OfferType> offerTypes = carrierOffersType.getOffer();
             for (OfferType offerType : offerTypes) {
-                Offers offer = new Offers();
-                offer.setOfferID(offerType.getOfferID());
-                offers.add(offer);
+                if (maxOffers > count) {
+                    offers.add(getOffers(offerType));
+                    count++;
+                }
             }
         }
         return offers;
+    }
+
+    private Offers getOffers(final OfferType offerType) {
+        Offers offer = new Offers();
+        offer.setOfferID(offerType.getOfferID());
+        return offer;
     }
 }

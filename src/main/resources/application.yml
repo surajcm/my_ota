@@ -36,6 +36,7 @@ air:
   shop:
     url:
       http://iata.api.mashery.com/athena/ndc192api
+    maxOffers: 100
   offer:
     url:
       http://iata.api.mashery.com/athena/ndc192api
