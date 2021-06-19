@@ -4,8 +4,10 @@ import com.online.travel.model.response.MyAirShoppingResponse;
 import com.online.travel.model.response.Offers;
 import com.online.travel.model.response.Segments;
 import com.online.travel.schema.response.shop.CarrierOffersType;
+import com.online.travel.schema.response.shop.DataListsType;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import com.online.travel.schema.response.shop.OfferType;
+import com.online.travel.schema.response.shop.PaxJourneyType;
 import com.online.travel.schema.response.shop.PaxSegmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class AirShopResponseMapper {
@@ -30,19 +33,28 @@ public class AirShopResponseMapper {
                     populateOffers(response.getResponse().getOffersGroup().getCarrierOffers()));
         }
         if (!response.getResponse().getDataLists().getPaxSegmentList().getPaxSegment().isEmpty()) {
-            airShoppingResponse.setSegments(populateSegments(
-                    response.getResponse().getDataLists().getPaxSegmentList().getPaxSegment()));
+            airShoppingResponse.setSegments(
+                    populateSegments(response.getResponse().getDataLists()));
         }
         airShoppingResponse.setTotalResultsCount(airShoppingResponse.getOffers().size());
         return airShoppingResponse;
     }
 
-    private List<Segments> populateSegments(final List<PaxSegmentType> paxSegment) {
+    private List<Segments> populateSegments(final DataListsType dataListsType) {
+        List<PaxSegmentType> paxSegment = dataListsType.getPaxSegmentList().getPaxSegment();
         List<Segments> segments = new ArrayList<>();
         for (PaxSegmentType paxSegmentType : paxSegment) {
             Segments newSegment = new Segments();
             newSegment.setSegmentID(paxSegmentType.getPaxSegmentID());
             segments.add(newSegment);
+        }
+        List<PaxJourneyType> paxJourneyTypes = dataListsType.getPaxJourneyList().getPaxJourney();
+        for (Segments segment: segments) {
+            Optional<PaxJourneyType> journeyWithSameSegment = paxJourneyTypes.stream()
+                    .filter(p -> p.getPaxSegmentRefID().contains(segment.getSegmentID()))
+                    .findFirst();
+            journeyWithSameSegment.ifPresent(
+                    paxJourneyType -> segment.setDuration(paxJourneyType.getDuration().toString()));
         }
         return segments;
     }
