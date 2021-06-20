@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class AirShopResponseMapper {
@@ -42,12 +43,7 @@ public class AirShopResponseMapper {
 
     private List<Segments> populateSegments(final DataListsType dataListsType) {
         List<PaxSegmentType> paxSegment = dataListsType.getPaxSegmentList().getPaxSegment();
-        List<Segments> segments = new ArrayList<>();
-        for (PaxSegmentType paxSegmentType : paxSegment) {
-            Segments newSegment = new Segments();
-            newSegment.setSegmentID(paxSegmentType.getPaxSegmentID());
-            segments.add(newSegment);
-        }
+        List<Segments> segments = paxSegment.stream().map(this::getSegments).collect(Collectors.toList());
         List<PaxJourneyType> paxJourneyTypes = dataListsType.getPaxJourneyList().getPaxJourney();
         for (Segments segment: segments) {
             Optional<PaxJourneyType> journeyWithSameSegment = paxJourneyTypes.stream()
@@ -57,6 +53,12 @@ public class AirShopResponseMapper {
                     paxJourneyType -> segment.setDuration(paxJourneyType.getDuration().toString()));
         }
         return segments;
+    }
+
+    private Segments getSegments(PaxSegmentType paxSegmentType) {
+        Segments newSegment = new Segments();
+        newSegment.setSegmentID(paxSegmentType.getPaxSegmentID());
+        return newSegment;
     }
 
     private List<Offers> populateOffers(final List<CarrierOffersType> carrierOffers) {
