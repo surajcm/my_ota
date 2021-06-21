@@ -55,7 +55,7 @@ public class AirShopResponseMapper {
         return segments;
     }
 
-    private Segments getSegments(PaxSegmentType paxSegmentType) {
+    private Segments getSegments(final PaxSegmentType paxSegmentType) {
         Segments newSegment = new Segments();
         newSegment.setSegmentID(paxSegmentType.getPaxSegmentID());
         return newSegment;
