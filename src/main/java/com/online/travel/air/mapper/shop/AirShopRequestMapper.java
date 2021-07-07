@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @Component
 public class AirShopRequestMapper {
     public IATAAirShoppingRQ mapShopRequest(final MyAirShoppingRequest myAirShoppingRequest) {
-        IATAAirShoppingRQ iataAirShoppingRQ = new IATAAirShoppingRQ();
+        var iataAirShoppingRQ = new IATAAirShoppingRQ();
         iataAirShoppingRQ.setMessageDoc(messageDoc());
         iataAirShoppingRQ.setParty(party());
         iataAirShoppingRQ.setPayloadAttributes(payloadAttributes());
@@ -50,7 +50,7 @@ public class AirShopRequestMapper {
         // &cabinClass=economy
         // &links=AD,ABF,ASM
         // &locale=en_US
-        RequestType request = new RequestType();
+        var request = new RequestType();
         request.setFlightCriteria(flightCriteria(myAirShoppingRequest.getSlices()));
         request.setPaxs(paxs(myAirShoppingRequest.getPassenger()));
         request.setShoppingCriteria(shoppingCriteria(myAirShoppingRequest.getCabinTypeCode()));
@@ -58,9 +58,9 @@ public class AirShopRequestMapper {
     }
 
     private ShoppingCriteriaType shoppingCriteria(final CabinTypeCode cabinTypeCode) {
-        ShoppingCriteriaType shoppingCriteriaType = new ShoppingCriteriaType();
+        var shoppingCriteriaType = new ShoppingCriteriaType();
         if (cabinTypeCode != null) {
-            CabinTypeType cabinTypeType = new CabinTypeType();
+            var cabinTypeType = new CabinTypeType();
             cabinTypeType.setCabinTypeCode(cabinTypeCode.name());
             shoppingCriteriaType.getCabinTypeCriteria().add(cabinTypeType);
         }
@@ -68,7 +68,7 @@ public class AirShopRequestMapper {
     }
 
     private PaxsType paxs(final Map<Integer, PassengerType> passengers) {
-        PaxsType paxs = new PaxsType();
+        var paxs = new PaxsType();
         paxs.getPax().addAll(paxsList(passengers));
         return paxs;
     }
@@ -78,14 +78,14 @@ public class AirShopRequestMapper {
     }
 
     private PaxType buildPassenger(final Map.Entry<Integer, PassengerType> passenger) {
-        PaxType pax = new PaxType();
+        var pax = new PaxType();
         pax.setPaxID("Pax" + passenger.getKey());
         pax.setPTC(passenger.getValue().name());
         return pax;
     }
 
     private FlightRequestType flightCriteria(final List<Slice> slices) {
-        FlightRequestType flightRequestType = new FlightRequestType();
+        var flightRequestType = new FlightRequestType();
         flightRequestType.getOriginDestCriteria().addAll(originDestCriteria(slices));
         return flightRequestType;
     }
@@ -95,11 +95,11 @@ public class AirShopRequestMapper {
     }
 
     private OriginDestCriteriaType originDestCriteria(final Slice slice) {
-        OriginDestCriteriaType originDestCriteria = new OriginDestCriteriaType();
+        var originDestCriteria = new OriginDestCriteriaType();
         originDestCriteria.setDestArrivalCriteria(getDestArrivalCriteriaType(slice));
         originDestCriteria.setOriginDepCriteria(getOriginDepCriteriaType(slice));
         if (slice.getCabinTypeCode() != null) {
-            CabinTypeType cabinTypeType = new CabinTypeType();
+            var cabinTypeType = new CabinTypeType();
             cabinTypeType.setCabinTypeCode(slice.getCabinTypeCode().name());
             originDestCriteria.getPreferredCabinType().add(cabinTypeType);
         }
@@ -107,14 +107,14 @@ public class AirShopRequestMapper {
     }
 
     private OriginDepCriteriaType getOriginDepCriteriaType(final Slice slice) {
-        OriginDepCriteriaType originDepCriteria = new OriginDepCriteriaType();
+        var originDepCriteria = new OriginDepCriteriaType();
         originDepCriteria.setIATALocationCode(slice.getDestination());
         originDepCriteria.setDate(slice.getDepartureDate());
         return originDepCriteria;
     }
 
     private DestArrivalCriteriaType getDestArrivalCriteriaType(final Slice slice) {
-        DestArrivalCriteriaType destArrivalCriteriaType = new DestArrivalCriteriaType();
+        var destArrivalCriteriaType = new DestArrivalCriteriaType();
         destArrivalCriteriaType.setIATALocationCode(slice.getOrigin());
         return destArrivalCriteriaType;
     }

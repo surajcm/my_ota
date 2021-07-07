@@ -7,7 +7,6 @@ import com.online.travel.schema.response.shop.CarrierOffersType;
 import com.online.travel.schema.response.shop.DataListsType;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import com.online.travel.schema.response.shop.OfferType;
-import com.online.travel.schema.response.shop.PaxJourneyType;
 import com.online.travel.schema.response.shop.PaxSegmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,8 +24,11 @@ public class AirShopResponseMapper {
     @Value("${air.shop.maxOffers}")
     private int maxOffers;
 
+    @Value("${air.shop.maxSegments}")
+    private int maxSegments;
+
     public MyAirShoppingResponse mapShopResponse(final IATAAirShoppingRS response) {
-        MyAirShoppingResponse airShoppingResponse = new MyAirShoppingResponse();
+        var airShoppingResponse = new MyAirShoppingResponse();
         airShoppingResponse.setTransactionId(response.getPayloadAttributes().getTrxID());
         if (!response.getResponse().getOffersGroup().getCarrierOffers().isEmpty()) {
             airShoppingResponse.setOffers(
@@ -42,11 +43,12 @@ public class AirShopResponseMapper {
     }
 
     private List<Segments> populateSegments(final DataListsType dataListsType) {
-        List<PaxSegmentType> paxSegment = dataListsType.getPaxSegmentList().getPaxSegment();
-        List<Segments> segments = paxSegment.stream().map(this::getSegments).collect(Collectors.toList());
-        List<PaxJourneyType> paxJourneyTypes = dataListsType.getPaxJourneyList().getPaxJourney();
+        var paxSegment = dataListsType.getPaxSegmentList().getPaxSegment();
+        var segments = paxSegment.stream().limit(maxSegments)
+                .map(this::getSegments).collect(Collectors.toList());
+        var paxJourneyTypes = dataListsType.getPaxJourneyList().getPaxJourney();
         for (Segments segment: segments) {
-            Optional<PaxJourneyType> journeyWithSameSegment = paxJourneyTypes.stream()
+            var journeyWithSameSegment = paxJourneyTypes.stream()
                     .filter(p -> p.getPaxSegmentRefID().contains(segment.getSegmentID()))
                     .findFirst();
             journeyWithSameSegment.ifPresent(
@@ -56,7 +58,7 @@ public class AirShopResponseMapper {
     }
 
     private Segments getSegments(final PaxSegmentType paxSegmentType) {
-        Segments newSegment = new Segments();
+        var newSegment = new Segments();
         newSegment.setSegmentID(paxSegmentType.getPaxSegmentID());
         return newSegment;
     }
@@ -64,21 +66,16 @@ public class AirShopResponseMapper {
     private List<Offers> populateOffers(final List<CarrierOffersType> carrierOffers) {
         logger.info("max offer count is :" + maxOffers);
         List<Offers> offers = new ArrayList<>();
-        int count = 0;
+        //todo: use flat map
         for (CarrierOffersType carrierOffersType : carrierOffers) {
-            List<OfferType> offerTypes = carrierOffersType.getOffer();
-            for (OfferType offerType : offerTypes) {
-                if (maxOffers > count) {
-                    offers.add(getOffers(offerType));
-                    count++;
-                }
-            }
+            offers = carrierOffersType.getOffer().stream().limit(maxOffers)
+                    .map(this::getOffers).collect(Collectors.toList());
         }
         return offers;
     }
 
     private Offers getOffers(final OfferType offerType) {
-        Offers offer = new Offers();
+        var offer = new Offers();
         offer.setOfferID(offerType.getOfferID());
         return offer;
     }
