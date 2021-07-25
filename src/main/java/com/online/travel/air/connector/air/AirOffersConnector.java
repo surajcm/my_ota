@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXBContext;
@@ -29,7 +28,7 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
 
     public IATAOfferPriceRS doOffers(final IATAOfferPriceRQ iataOfferPriceRQ) {
         logRequest(iataOfferPriceRQ);
-        ResponseEntity<IATAOfferPriceRS> responseEntity = process(offersUrl,
+        var responseEntity = process(offersUrl,
                 HttpMethod.POST,
                 mockEntity(iataOfferPriceRQ), IATAOfferPriceRS.class);
         logResponse(responseEntity.getBody());
@@ -39,12 +38,12 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
     private void logResponse(final IATAOfferPriceRS body) {
         logger.info("logging response ");
         try {
-            JAXBContext contextObj = JAXBContext.newInstance(IATAOfferPriceRS.class);
-            Marshaller marshallerObj = contextObj.createMarshaller();
+            var contextObj = JAXBContext.newInstance(IATAOfferPriceRS.class);
+            var marshallerObj = contextObj.createMarshaller();
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             marshallerObj.marshal(body, sw);
-            String xmlContent = sw.toString();
+            var xmlContent = sw.toString();
             logger.info(xmlContent);
         } catch (JAXBException ex) {
             logger.info("Error occurred :" + ex.getMessage());
@@ -54,12 +53,12 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
     private void logRequest(final IATAOfferPriceRQ iataOfferPriceRQ) {
         logger.info("logging request");
         try {
-            JAXBContext contextObj = JAXBContext.newInstance(IATAOfferPriceRQ.class);
-            Marshaller marshallerObj = contextObj.createMarshaller();
+            var contextObj = JAXBContext.newInstance(IATAOfferPriceRQ.class);
+            var marshallerObj = contextObj.createMarshaller();
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             marshallerObj.marshal(iataOfferPriceRQ, sw);
-            String xmlContent = sw.toString();
+            var xmlContent = sw.toString();
             logger.info(xmlContent);
         } catch (JAXBException ex) {
             logger.info("Error occurred :" + ex.getMessage());
@@ -71,7 +70,7 @@ public class AirOffersConnector extends RestConnector<IATAOfferPriceRS> {
     }
 
     private HttpHeaders getHeaders() {
-        HttpHeaders httpHeaders = new HttpHeaders();
+        var httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Type", "application/xml");
         httpHeaders.add("Authorization-Key", authKey);
         return httpHeaders;

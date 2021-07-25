@@ -5,10 +5,6 @@ import com.online.travel.air.builder.AirShopRequestBuilder;
 import com.online.travel.air.service.AirOffersService;
 import com.online.travel.air.service.AirShopService;
 import com.online.travel.air.validator.AirShopValidator;
-import com.online.travel.model.request.MyAirOffersRequest;
-import com.online.travel.model.request.MyAirShoppingRequest;
-import com.online.travel.model.response.MyAirShoppingResponse;
-import com.online.travel.schema.response.offer.IATAOfferPriceRS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +41,9 @@ public class AirController {
     public ResponseEntity<Object> flightSearch(@RequestParam final Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight search");
-        MyAirShoppingRequest myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
+        var myAirShoppingRequest = airShopRequestBuilder.buildAirShoppingRequest(params);
         validator.validate(myAirShoppingRequest);
-        MyAirShoppingResponse airShoppingResponse = airShopService.doAirShopping(myAirShoppingRequest);
+        var airShoppingResponse = airShopService.doAirShopping(myAirShoppingRequest);
         return new ResponseEntity<>(airShoppingResponse, HttpStatus.OK);
     }
 
@@ -55,9 +51,9 @@ public class AirController {
     public ResponseEntity<Object> flightOffers(@RequestParam final Map<String, String> params)
             throws Exception {
         logger.info("Inside the flight re-price");
-        MyAirOffersRequest myAirOffersRequest = airOffersRequestBuilder.buildAirOffersRequest(params);
+        var myAirOffersRequest = airOffersRequestBuilder.buildAirOffersRequest(params);
         //todo: Use MyAirOffersResponse at controller layer
-        IATAOfferPriceRS iataOfferPriceRS = airOffersService.doAirOffers(myAirOffersRequest);
+        var iataOfferPriceRS = airOffersService.doAirOffers(myAirOffersRequest);
         return new ResponseEntity<>(iataOfferPriceRS, HttpStatus.OK);
     }
 }

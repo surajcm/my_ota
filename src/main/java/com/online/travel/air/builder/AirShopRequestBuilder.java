@@ -19,7 +19,7 @@ public class AirShopRequestBuilder {
     private static final String CABIN_CLASS = "cabinClass";
 
     public MyAirShoppingRequest buildAirShoppingRequest(final Map<String, String> params) {
-        MyAirShoppingRequest myAirShoppingRequest = new MyAirShoppingRequest();
+        var myAirShoppingRequest = new MyAirShoppingRequest();
         myAirShoppingRequest.setSlices(getSlices(params));
         myAirShoppingRequest.setPassenger(getPassengers(params));
         myAirShoppingRequest.setCabinTypeCode(getCabinType(params));
@@ -30,7 +30,7 @@ public class AirShopRequestBuilder {
         // &cabinClass=economy
         CabinTypeCode cabinTypeCode = null;
         if (params.containsKey(CABIN_CLASS)) {
-            String val = params.get(CABIN_CLASS);
+            var val = params.get(CABIN_CLASS);
             cabinTypeCode = CabinTypeCode.fromDescription(val).orElse(null);
         }
         return cabinTypeCode;
@@ -38,15 +38,10 @@ public class AirShopRequestBuilder {
 
     private List<Slice> getSlices(final Map<String, String> params) {
         Map<String, Slice> slices = new HashMap<>();
-        Map<String, String> sliceMap = getSliceOnlyMap(params);
+        var sliceMap = getSliceOnlyMap(params);
         for (Map.Entry<String, String> entry : sliceMap.entrySet()) {
             String currentKey = entry.getKey().split("\\.")[0];
-            Slice slice;
-            if (slices.containsKey(currentKey)) {
-                slice = slices.get(currentKey);
-            } else {
-                slice = new Slice();
-            }
+            Slice slice = getSlice(slices, currentKey);
             if (entry.getKey().contains("origin")) {
                 slice.setOrigin(entry.getValue());
             }
@@ -63,6 +58,16 @@ public class AirShopRequestBuilder {
             slices.put(currentKey, slice);
         }
         return new ArrayList<>(slices.values());
+    }
+
+    private Slice getSlice(final Map<String, Slice> slices, final String currentKey) {
+        Slice slice;
+        if (slices.containsKey(currentKey)) {
+            slice = slices.get(currentKey);
+        } else {
+            slice = new Slice();
+        }
+        return slice;
     }
 
 

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXBContext;
@@ -30,7 +29,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
 
     public IATAAirShoppingRS doShopping(final IATAAirShoppingRQ iataAirShoppingRQ) {
         logRequest(iataAirShoppingRQ);
-        ResponseEntity<IATAAirShoppingRS> responseEntity = process(shopUrl,
+        var responseEntity = process(shopUrl,
                 HttpMethod.POST,
                 mockEntity(iataAirShoppingRQ), IATAAirShoppingRS.class);
         //logResponse(responseEntity.getBody());
@@ -40,12 +39,12 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     private void logResponse(final IATAAirShoppingRS body) {
         logger.info("logging response ");
         try {
-            JAXBContext contextObj = JAXBContext.newInstance(IATAAirShoppingRS.class);
-            Marshaller marshallerObj = contextObj.createMarshaller();
+            var contextObj = JAXBContext.newInstance(IATAAirShoppingRS.class);
+            var marshallerObj = contextObj.createMarshaller();
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             marshallerObj.marshal(body, sw);
-            String xmlContent = sw.toString();
+            var xmlContent = sw.toString();
             logger.info(xmlContent);
         } catch (JAXBException ex) {
             ex.printStackTrace();
@@ -55,12 +54,12 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     private void logRequest(final IATAAirShoppingRQ iataAirShoppingRQ) {
         logger.info("logging request");
         try {
-            JAXBContext contextObj = JAXBContext.newInstance(IATAAirShoppingRQ.class);
-            Marshaller marshallerObj = contextObj.createMarshaller();
+            var contextObj = JAXBContext.newInstance(IATAAirShoppingRQ.class);
+            var marshallerObj = contextObj.createMarshaller();
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            StringWriter sw = new StringWriter();
+            var sw = new StringWriter();
             marshallerObj.marshal(iataAirShoppingRQ, sw);
-            String xmlContent = sw.toString();
+            var xmlContent = sw.toString();
             logger.info(xmlContent);
         } catch (JAXBException ex) {
             ex.printStackTrace();
@@ -72,7 +71,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
     }
 
     private HttpHeaders getHeaders() {
-        HttpHeaders httpHeaders = new HttpHeaders();
+        var httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Type", "application/xml");
         httpHeaders.add("Authorization-Key", authKey);
         return httpHeaders;

@@ -30,7 +30,7 @@ import java.time.ZonedDateTime;
 public class AirOffersMapper {
 
     public IATAOfferPriceRQ buildIATAOfferPriceRQ(final MyAirOffersRequest myAirOffersRequest) {
-        IATAOfferPriceRQ iataOfferPriceRQ = new IATAOfferPriceRQ();
+        var iataOfferPriceRQ = new IATAOfferPriceRQ();
         iataOfferPriceRQ.setMessageDoc(messageDoc());
         iataOfferPriceRQ.setParty(party());
         iataOfferPriceRQ.setPOS(pos());
@@ -39,20 +39,20 @@ public class AirOffersMapper {
     }
 
     private RequestType request(final MyAirOffersRequest myAirOffersRequest) {
-        RequestType requestType = new RequestType();
+        var requestType = new RequestType();
         requestType.setDataLists(dataLists());
         requestType.setPricedOffer(pricedOffer());
         return requestType;
     }
 
     private PricedOfferType pricedOffer() {
-        PricedOfferType pricedOfferType = new PricedOfferType();
+        var pricedOfferType = new PricedOfferType();
         pricedOfferType.getSelectedOffer().add(selectedOffer());
         return pricedOfferType;
     }
 
     private SelectedOfferType selectedOffer() {
-        SelectedOfferType selectedOfferType = new SelectedOfferType();
+        var selectedOfferType = new SelectedOfferType();
         selectedOfferType.setOfferRefID("OFFER1");
         selectedOfferType.setOwnerCode("9A");
         selectedOfferType.getSelectedOfferItem().add(selectedOfferItem());
@@ -61,26 +61,26 @@ public class AirOffersMapper {
     }
 
     private SelectedOfferItemType selectedOfferItem() {
-        SelectedOfferItemType selectedOfferItemType = new SelectedOfferItemType();
+        var selectedOfferItemType = new SelectedOfferItemType();
         selectedOfferItemType.setOfferItemRefID("OFFERITEM1_1");
         selectedOfferItemType.getPaxRefID().add("Pax1");
         return selectedOfferItemType;
     }
 
     private DataListsType dataLists() {
-        DataListsType dataListsType = new DataListsType();
+        var dataListsType = new DataListsType();
         dataListsType.setPaxList(paxList());
         return dataListsType;
     }
 
     private PaxListType paxList() {
-        PaxListType paxListType = new PaxListType();
+        var paxListType = new PaxListType();
         paxListType.withPax(paxType());
         return paxListType;
     }
 
     private PaxType paxType() {
-        PaxType paxType = new PaxType();
+        var paxType = new PaxType();
         paxType.setIndividual(individual());
         paxType.withLoyaltyProgramAccount(loyaltyProgramAccount());
         paxType.setPaxID("Pax1");
@@ -89,13 +89,13 @@ public class AirOffersMapper {
     }
 
     private LoyaltyProgramAccountType loyaltyProgramAccount() {
-        LoyaltyProgramAccountType loyaltyProgramAccountType = new LoyaltyProgramAccountType();
+        var loyaltyProgramAccountType = new LoyaltyProgramAccountType();
         loyaltyProgramAccountType.setAccountNumber("1234525525");
         return loyaltyProgramAccountType;
     }
 
     private IndividualType individual() {
-        IndividualType individualType = new IndividualType();
+        var individualType = new IndividualType();
         individualType.setSuffixName("Johan");
         individualType.setSurname("Smithas");
         individualType.setTitleName("Mr");
@@ -103,24 +103,24 @@ public class AirOffersMapper {
     }
 
     private MessageDocType messageDoc() {
-        MessageDocType messageDocType = new MessageDocType();
+        var messageDocType = new MessageDocType();
         messageDocType.setRefVersionNumber(BigDecimal.valueOf(1.0));
         return messageDocType;
     }
 
     private PartyType party() {
-        PartyType party = new PartyType();
-        RecipientType recipient = new RecipientType();
+        var party = new PartyType();
+        var recipient = new RecipientType();
         recipient.setAggregator(aggregator());
         party.setRecipient(recipient);
-        SenderType sender = new SenderType();
+        var sender = new SenderType();
         sender.setTravelAgency(travelAgency());
         party.setSender(sender);
         return party;
     }
 
     private TravelAgencyType travelAgency() {
-        TravelAgencyType travelAgencyType = new TravelAgencyType();
+        var travelAgencyType = new TravelAgencyType();
         travelAgencyType.setAgencyID("9A");
         travelAgencyType.setIATANumber(BigDecimal.valueOf(12312312));
         travelAgencyType.setName("Gods Travel");
@@ -128,18 +128,18 @@ public class AirOffersMapper {
     }
 
     private AggregatorType aggregator() {
-        AggregatorType aggregatorType = new AggregatorType();
+        var aggregatorType = new AggregatorType();
         aggregatorType.setAggregatorID("88888888");
         aggregatorType.setName("JR TECHNOLOGIES");
         return aggregatorType;
     }
 
     private POSType pos() {
-        POSType pos = new POSType();
-        CityType cityType = new CityType();
+        var pos = new POSType();
+        var cityType = new CityType();
         cityType.setIATALocationCode("ATH");
         pos.setCity(cityType);
-        CountryType country = new CountryType();
+        var country = new CountryType();
         country.setCountryCode("GR");
         pos.setCountry(country);
         pos.setRequestTime(currentTimeStamp());
@@ -147,7 +147,7 @@ public class AirOffersMapper {
     }
 
     private DateTimeType currentTimeStamp() {
-        DateTimeType dateTimeType = new DateTimeType();
+        var dateTimeType = new DateTimeType();
         dateTimeType.setValue(ZonedDateTime.now());
         return dateTimeType;
     }

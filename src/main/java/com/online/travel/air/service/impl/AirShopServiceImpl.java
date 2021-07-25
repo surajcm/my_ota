@@ -9,7 +9,6 @@ import com.online.travel.air.mapper.shop.AirShopResponseMapper;
 import com.online.travel.air.service.AirShopService;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.model.response.MyAirShoppingResponse;
-import com.online.travel.schema.request.shop.IATAAirShoppingRQ;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +31,17 @@ public class AirShopServiceImpl implements AirShopService {
     @Override
     public MyAirShoppingResponse doAirShopping(final MyAirShoppingRequest myAirShoppingRequest) {
         logger.info("Going to hit IATA endpoint");
-        IATAAirShoppingRQ iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
-        IATAAirShoppingRS response = airShopConnector.doShopping(iataAirShoppingRQ);
+        var iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
+        var response = airShopConnector.doShopping(iataAirShoppingRQ);
         logger.debug(responseAsStringForLogging(response));
-        MyAirShoppingResponse airShoppingResponse = airShopResponseMapper.mapShopResponse(response);
+        var airShoppingResponse = airShopResponseMapper.mapShopResponse(response);
         logger.info(airShoppingResponse.toString());
         logger.info("Done... showing results");
         return airShoppingResponse;
     }
 
     private String responseAsStringForLogging(final IATAAirShoppingRS response) {
-        ObjectMapper mapper = new ObjectMapper();
+        var mapper = new ObjectMapper();
         String responseAsString;
         try {
             responseAsString = mapper.writeValueAsString(response);
