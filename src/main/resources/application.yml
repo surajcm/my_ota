@@ -19,6 +19,12 @@ logging:
     name:
       logs/${spring.application.name}.log  
 
+application-description:
+  @project.description@
+application-version:
+  @project.version@
+springdoc.use-fqn:
+  true
 
 graphql:
   servlet:
