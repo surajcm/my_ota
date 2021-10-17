@@ -28,6 +28,7 @@ public class RestConnector<T> {
         try {
             responseEntity = restTemplate.exchange(url, method, requestEntity, responseType);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            logger.error("Error occurred: {}", ex.getMessage());
             throw new MyOtaException(ex.getResponseBodyAsString(), ex.getStatusCode());
         }
         //assuming all error responses are of same type
@@ -38,8 +39,8 @@ public class RestConnector<T> {
     }
 
     private ResponseEntity<T> generateExceptionFromErrorMessage(final ResponseEntity<T> responseEntity) {
-        JAXBElement<ErrorsType> errorResponse = (JAXBElement<ErrorsType>) responseEntity.getBody();
-        logger.info("An error occurred :" + errorResponse.getValue().getError().getValue());
+        var errorResponse = (JAXBElement<ErrorsType>) responseEntity.getBody();
+        logger.info("An error occurred : {}" , errorResponse.getValue().getError().getValue());
         throw new MyOtaException(errorResponse.getValue().getError().getCode(),
                 errorResponse.getValue().getError().getValue(),
                 HttpStatus.INTERNAL_SERVER_ERROR);

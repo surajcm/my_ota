@@ -16,14 +16,14 @@ public class Initializer {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplateBuilder()
-                .setConnectTimeout(Duration.ofSeconds(90))
-                .setReadTimeout(Duration.ofSeconds(90))
+                .setConnectTimeout(Duration.ofSeconds(200))
+                .setReadTimeout(Duration.ofSeconds(200))
                 .build();
     }
 
     @Bean
-    public OpenAPI customOpenAPI(@Value("${application-description}") String description,
-                                 @Value("${application-version}") String appVersion) {
+    public OpenAPI customOpenAPI(@Value("${application-description}") final String description,
+                                 @Value("${application-version}") final String appVersion) {
 
         return new OpenAPI()
                 .info(new Info()

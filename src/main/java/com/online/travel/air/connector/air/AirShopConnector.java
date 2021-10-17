@@ -32,7 +32,7 @@ public class AirShopConnector extends RestConnector<IATAAirShoppingRS> {
         var responseEntity = process(shopUrl,
                 HttpMethod.POST,
                 mockEntity(iataAirShoppingRQ), IATAAirShoppingRS.class);
-        //logResponse(responseEntity.getBody());
+        logResponse(responseEntity.getBody());
         return responseEntity.getBody();
     }
 
