@@ -7,10 +7,10 @@
 {
   "slice1.origin":"LHR",
   "slice1.destination":"BCN",
-  "slice1.departureDate":"2021-12-23",
+  "slice1.departureDate":"2022-04-23",
   "slice2.origin":"BCN",
   "slice2.destination":"LHR",
-  "slice2.departureDate":"2021-12-25",
+  "slice2.departureDate":"2022-04-25",
   "slice2.cabinClass":"economy",
   "adult":"1",
   "child":"2"
