@@ -29,7 +29,7 @@ public class RestConnector<T> {
             responseEntity = restTemplate.exchange(url, method, requestEntity, responseType);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
             logger.error("Error occurred: {}", ex.getMessage());
-            throw new MyOtaException(ex.getResponseBodyAsString(), ex.getStatusCode());
+            throw new MyOtaException(ex.getResponseBodyAsString(), HttpStatus.valueOf(ex.getStatusCode().value()));
         }
         //assuming all error responses are of same type
         if (responseEntity.getBody() instanceof JAXBElement) {

@@ -15,8 +15,8 @@ public class MyOtaException extends RuntimeException {
 
     public MyOtaException(final String errorCode, final String errorMessage, final HttpStatus status) {
         this.errorMessage = errorMessage;
-        this.status = status;
         this.errorCode = errorCode;
+        this.status = status;
     }
 
     public String getErrorCode() {
