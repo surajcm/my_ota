@@ -1,7 +1,6 @@
 package com.online.travel.dataaccess.serialization;
 
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;
 import java.util.Optional;
 

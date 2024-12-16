@@ -75,14 +75,14 @@ public class AirOffersMapper {
 
     private PaxListType paxList() {
         var paxListType = new PaxListType();
-        paxListType.withPax(paxType());
+        paxListType.getPax().add(paxType());
         return paxListType;
     }
 
     private PaxType paxType() {
         var paxType = new PaxType();
         paxType.setIndividual(individual());
-        paxType.withLoyaltyProgramAccount(loyaltyProgramAccount());
+        paxType.getLoyaltyProgramAccount().add(loyaltyProgramAccount());
         paxType.setPaxID("Pax1");
         paxType.setPTC("ADT");
         return paxType;

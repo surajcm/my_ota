@@ -4,6 +4,9 @@ package com.online.travel.air.connector.air;
 import com.online.travel.dataaccess.connector.RestConnector;
 import com.online.travel.schema.request.shop.IATAAirShoppingRQ;
 import com.online.travel.schema.response.shop.IATAAirShoppingRS;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +15,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
 @Component

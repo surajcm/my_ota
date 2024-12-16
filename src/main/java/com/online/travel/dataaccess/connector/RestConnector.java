@@ -2,6 +2,7 @@ package com.online.travel.dataaccess.connector;
 
 import com.online.travel.exception.MyOtaException;
 import com.online.travel.schema.error.ErrorsType;
+import jakarta.xml.bind.JAXBElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import javax.xml.bind.JAXBElement;
 
 public class RestConnector<T> {
     private static final Logger logger = LoggerFactory.getLogger(RestConnector.class);
