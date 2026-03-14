@@ -1,12 +1,15 @@
 package com.online.travel.air.builder;
 
+import com.online.travel.exception.MyOtaException;
 import com.online.travel.model.referencedata.CabinTypeCode;
 import com.online.travel.model.referencedata.PassengerType;
 import com.online.travel.model.request.MyAirShoppingRequest;
 import com.online.travel.model.request.Slice;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,11 +52,18 @@ public class AirShopRequestBuilder {
                 slice.setDestination(entry.getValue());
             }
             if (entry.getKey().contains("departureDate")) {
-                //todo : handle date parse error
-                slice.setDepartureDate(LocalDate.parse(entry.getValue()));
+                try {
+                    slice.setDepartureDate(LocalDate.parse(entry.getValue()));
+                } catch (DateTimeParseException parseException) {
+                    throw new MyOtaException("Invalid date format for departureDate. Expected format: YYYY-MM-DD",
+                            HttpStatus.BAD_REQUEST);
+                }
             }
             if (entry.getKey().contains(CABIN_CLASS)) {
-                slice.setCabinTypeCode(CabinTypeCode.fromDescription(entry.getValue()).get());
+                slice.setCabinTypeCode(CabinTypeCode.fromDescription(entry.getValue())
+                        .orElseThrow(() -> new MyOtaException(
+                                "Invalid cabin class: " + entry.getValue(),
+                                HttpStatus.BAD_REQUEST)));
             }
             slices.put(currentKey, slice);
         }
@@ -91,7 +101,17 @@ public class AirShopRequestBuilder {
         int passengerCount = params.size() + 1;
         Map<Integer, PassengerType> originalPassengers = new HashMap<>();
         if (params.containsKey(type)) {
-            int count = Integer.parseInt(params.get(type));
+            int count;
+            try {
+                count = Integer.parseInt(params.get(type));
+                if (count < 0 || count > 99) {
+                    throw new MyOtaException("Passenger count for " + type + " must be between 0 and 99",
+                            HttpStatus.BAD_REQUEST);
+                }
+            } catch (NumberFormatException formatException) {
+                throw new MyOtaException("Invalid passenger count for " + type + ". Must be a valid number.",
+                        HttpStatus.BAD_REQUEST);
+            }
             while (count > 0) {
                 originalPassengers.put(passengerCount, passengerType);
                 passengerCount++;

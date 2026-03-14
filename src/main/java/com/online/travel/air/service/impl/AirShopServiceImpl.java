@@ -30,13 +30,18 @@ public class AirShopServiceImpl implements AirShopService {
 
     @Override
     public MyAirShoppingResponse doAirShopping(final MyAirShoppingRequest myAirShoppingRequest) {
-        logger.info("Going to hit IATA endpoint");
+        logger.info("Processing air shopping request");
         var iataAirShoppingRQ = airShopMapper.mapShopRequest(myAirShoppingRequest);
         var response = airShopConnector.doShopping(iataAirShoppingRQ);
-        logger.debug(responseAsStringForLogging(response));
+
+        // Only log response details in debug mode
+        if (logger.isDebugEnabled()) {
+            logger.debug("IATA response: {}", responseAsStringForLogging(response));
+        }
+
         var airShoppingResponse = airShopResponseMapper.mapShopResponse(response);
-        logger.info(airShoppingResponse.toString());
-        logger.info("Done... showing results");
+        logger.info("Air shopping request completed successfully with {} offers",
+                airShoppingResponse.getOffers() != null ? airShoppingResponse.getOffers().size() : 0);
         return airShoppingResponse;
     }
 
@@ -47,6 +52,7 @@ public class AirShopServiceImpl implements AirShopService {
             responseAsString = mapper.writeValueAsString(response);
         } catch (JsonProcessingException exception) {
             responseAsString = "parseError";
+            logger.warn("Failed to serialize response for logging");
         }
         return responseAsString;
     }
