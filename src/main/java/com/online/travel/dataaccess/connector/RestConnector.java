@@ -27,8 +27,8 @@ public class RestConnector<T> {
         try {
             responseEntity = restTemplate.exchange(url, method, requestEntity, responseType);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
-            logger.error("Error occurred: {}", ex.getMessage());
-            throw new MyOtaException(ex.getResponseBodyAsString(), HttpStatus.valueOf(ex.getStatusCode().value()));
+            handleHttpException(ex, url);
+            throw new MyOtaException("Unexpected error", HttpStatus.INTERNAL_SERVER_ERROR); // Never reached
         }
         //assuming all error responses are of same type
         if (responseEntity.getBody() instanceof JAXBElement) {
@@ -37,11 +37,42 @@ public class RestConnector<T> {
         return responseEntity;
     }
 
+    private void handleHttpException(final RuntimeException ex, final String url) {
+        int statusCode = getStatusCode(ex);
+        logger.error("External API error - Status: {}, URL: {}", statusCode, url);
+        if (logger.isDebugEnabled()) {
+            logger.debug("External API error details: {}", getResponseBody(ex));
+        }
+        throw new MyOtaException("Unable to process flight request. Please check your input and try again.",
+                HttpStatus.valueOf(statusCode));
+    }
+
+    private int getStatusCode(final RuntimeException ex) {
+        return ex instanceof HttpClientErrorException
+                ? ((HttpClientErrorException) ex).getStatusCode().value()
+                : ((HttpServerErrorException) ex).getStatusCode().value();
+    }
+
+    private String getResponseBody(final RuntimeException ex) {
+        return ex instanceof HttpClientErrorException
+                ? ((HttpClientErrorException) ex).getResponseBodyAsString()
+                : ((HttpServerErrorException) ex).getResponseBodyAsString();
+    }
+
     private ResponseEntity<T> generateExceptionFromErrorMessage(final ResponseEntity<T> responseEntity) {
         var errorResponse = (JAXBElement<ErrorsType>) responseEntity.getBody();
-        logger.info("An error occurred : {}" , errorResponse.getValue().getError().getValue());
-        throw new MyOtaException(errorResponse.getValue().getError().getCode(),
-                errorResponse.getValue().getError().getValue(),
+        String errorCode = errorResponse.getValue().getError().getCode();
+        String errorValue = errorResponse.getValue().getError().getValue();
+
+        logger.error("External API returned error - Code: {}", errorCode);
+        // Log the full error in debug mode only
+        if (logger.isDebugEnabled()) {
+            logger.debug("External API error details: {}", errorValue);
+        }
+
+        // Don't expose external API error details to users
+        throw new MyOtaException(errorCode,
+                "Unable to process flight request. Please check your input and try again.",
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
