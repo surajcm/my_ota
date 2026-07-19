@@ -1,8 +1,8 @@
 package com.online.travel.air.service;
 
 import com.online.travel.model.request.MyAirOffersRequest;
-import com.online.travel.schema.response.offer.IATAOfferPriceRS;
+import com.online.travel.model.response.MyAirOffersResponse;
 
 public interface AirOffersService {
-    IATAOfferPriceRS doAirOffers(MyAirOffersRequest myAirOffersRequest);
+    MyAirOffersResponse doAirOffers(MyAirOffersRequest myAirOffersRequest);
 }

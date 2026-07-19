@@ -6,6 +6,12 @@ spring:
   application:
     name:
       MyOtaApp
+  graphql:
+    graphiql:
+      enabled: true
+    schema:
+      printer:
+        enabled: true
 
 logging:
   level:
@@ -25,18 +31,6 @@ application-version:
   @project.version@
 springdoc.use-fqn:
   true
-
-graphql:
-  servlet:
-    mapping: /graphql
-    enabled: true
-graphiql:
-  mapping: /graphiql
-  endpoint:
-    graphql: /graphql
-  static:
-    basePath: /
-  enabled: true
 
 air:
   shop:

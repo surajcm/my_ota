@@ -1,0 +1,73 @@
+type Query {
+    hello(who: String): String!
+    flightSearch(request: AirShoppingRequest!): AirShoppingResponse!
+    flightOffers: AirOffersResponse!
+}
+
+input AirShoppingRequest {
+    slices: [SliceInput!]!
+    passengers: PassengersInput!
+    cabinClass: CabinClass
+}
+
+input SliceInput {
+    origin: String!
+    destination: String!
+    "Departure date in ISO-8601 format (YYYY-MM-DD)"
+    departureDate: String!
+    cabinClass: CabinClass
+}
+
+input PassengersInput {
+    adults: Int
+    children: Int
+    seniors: Int
+}
+
+enum CabinClass {
+    PREMIUM_FIRST
+    FIRST
+    PREMIUM_BUSINESS
+    BUSINESS
+    ECONOMY_STANDARD
+    PREMIUM_ECONOMY
+    ECONOMY
+}
+
+type AirShoppingResponse {
+    totalResultsCount: Int!
+    transactionId: String
+    segments: [Segment!]
+    offers: [Offer!]
+}
+
+type Segment {
+    segmentID: String
+    duration: String
+}
+
+type Offer {
+    offerID: String
+}
+
+type AirOffersResponse {
+    transactionId: String
+    shoppingResponseId: String
+    pricedOffer: PricedOffer
+}
+
+type PricedOffer {
+    offerID: String
+    ownerCode: String
+    validatingCarrierCode: String
+    totalAmount: Float
+    currency: String
+    offerItems: [PricedOfferItem!]
+}
+
+type PricedOfferItem {
+    offerItemID: String
+    offerItemTypeCode: String
+    totalAmount: Float
+    currency: String
+}

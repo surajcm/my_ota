@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -78,13 +79,15 @@ class AirControllerTest {
     }
 
     private MultiValueMap<String, String> mockParams() {
+        String outboundDate = LocalDate.now().plusDays(30).toString();
+        String returnDate = LocalDate.now().plusDays(32).toString();
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.put("slice1.origin", Collections.singletonList("LHR"));
         parameters.put("slice1.destination", Collections.singletonList("BCN"));
-        parameters.put("slice1.departureDate", Collections.singletonList("2020-08-23"));
+        parameters.put("slice1.departureDate", Collections.singletonList(outboundDate));
         parameters.put("slice2.origin", Collections.singletonList("BCN"));
         parameters.put("slice2.destination", Collections.singletonList("LHR"));
-        parameters.put("slice2.departureDate", Collections.singletonList("2020-08-25"));
+        parameters.put("slice2.departureDate", Collections.singletonList(returnDate));
         parameters.put("slice2.cabinClass", Collections.singletonList("economy"));
         parameters.put("adult", Collections.singletonList("1"));
         parameters.put("child", Collections.singletonList("2"));

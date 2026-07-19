@@ -52,8 +52,7 @@ public class AirController {
             throws Exception {
         logger.info("Inside the flight re-price");
         var myAirOffersRequest = airOffersRequestBuilder.buildAirOffersRequest(params);
-        //todo: Use MyAirOffersResponse at controller layer
-        var iataOfferPriceRS = airOffersService.doAirOffers(myAirOffersRequest);
-        return new ResponseEntity<>(iataOfferPriceRS, HttpStatus.OK);
+        var myAirOffersResponse = airOffersService.doAirOffers(myAirOffersRequest);
+        return new ResponseEntity<>(myAirOffersResponse, HttpStatus.OK);
     }
 }
